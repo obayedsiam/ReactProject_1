@@ -1,9 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { Button } from "reactstrap";
+import { Button, Row, Col, Container } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import Home from "./components/Home";
 import Allcourses from "./components/Allcourses";
+import AddCourse from "./components/AddCourse";
+import Header from "./components/Header";
+import Menus from "./components/Menus";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 
 function App() {
   const btnHandler = () => {
@@ -12,11 +16,24 @@ function App() {
   };
 
   return (
-    <div>
-      <ToastContainer />
-      <Home />
-      <Allcourses />
-    </div>
+    <>
+    <Router>
+    <Container>
+      <Header></Header>
+      <Row>
+        <Col md = {4}>
+            <Menus/>
+        </Col>
+        <Col md = {8}>
+          <Route path = "/" component = {Home} exact/>
+          <Route path = "/add-course" component = {AddCourse} exact/>
+          <Route path = "/view-course" component = {Allcourses} exact/>
+        </Col>
+      </Row>
+    </Container>
+    </Router>
+    </>
+   
   );
 }
 

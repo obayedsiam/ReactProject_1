@@ -1,7 +1,89 @@
-import React, { Component } from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import { useState, useEffect, Fragment } from "react";
+import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import axios from "axios";
+import base_url from "../api/bootapi";
+import "react-toastify/dist/ReactToastify.css";
 
-const AddCourse = (course) =>{
+const AddCourse = () => {
+  useEffect(() => {
+    document.title = "Add Course";
+  }, []);
 
-}
+  const [course, setCourse] = useState({});
+
+  const courseHandler = (e) => {
+    //    toast.success("Course Added");
+    console.log(course, "Submitted");
+    postDatatoServer(course);
+    e.preventDefault();
+  };
+
+  const postDatatoServer = (data) => {
+    axios
+      .post(`${base_url}/course`, data)
+      .then((response) => {
+        console.log(response, "Course Added");
+        toast.success("Course Added");
+      })
+      .catch((error) => {
+        toast.error("Error occured");
+      });
+  };
+
+  return (
+    <Fragment>
+      <h1 className="text-center my=3">Fill up the form </h1>
+      <Form onSubmit={courseHandler}>
+        <FormGroup>
+          <label htmlFor="userId">User Id</label>
+          <Input
+            type="text"
+            name="userId"
+            placeholder="Enter Id"
+            id="UserId"
+            onChange={(e) => {
+              setCourse({ ...course, id: e.target.value });
+              //  console.log(course, "Id changed");
+            }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="title">Course title </label>
+          <Input
+            type="text"
+            placeholder="Enter Course title"
+            name="title"
+            id="title"
+            onChange={(e) => {
+              setCourse({ ...course, title: e.target.value });
+            }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <label>Description</label>
+          <Input
+            type="textarea"
+            placeholder="Enter Description"
+            id="description"
+            onChange={(e) => {
+              setCourse({ ...course, description: e.target.value });
+            }}
+          ></Input>
+        </FormGroup>
+
+        <Container className="text-center my-3">
+          <ToastContainer />
+          <Button color="success" type="submit">
+            Add Course
+          </Button>
+          <Button color="warning ms-2" type="reset">
+            Clear
+          </Button>
+        </Container>
+      </Form>
+    </Fragment>
+  );
+};
 
 export default AddCourse;
