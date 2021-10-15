@@ -7,7 +7,8 @@ import Allcourses from "./components/Allcourses";
 import AddCourse from "./components/AddCourse";
 import Header from "./components/Header";
 import Menus from "./components/Menus";
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import EditCourse from "./components/EditCourse";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   const btnHandler = () => {
@@ -17,23 +18,23 @@ function App() {
 
   return (
     <>
-    <Router>
-    <Container>
-      <Header></Header>
-      <Row>
-        <Col md = {4}>
-            <Menus/>
-        </Col>
-        <Col md = {8}>
-          <Route path = "/" component = {Home} exact/>
-          <Route path = "/add-course" component = {AddCourse} exact/>
-          <Route path = "/view-course" component = {Allcourses} exact/>
-        </Col>
-      </Row>
-    </Container>
-    </Router>
+      <Router>
+        <Container>
+          <Header></Header>
+          <Row>
+            <Col md={4}>
+              <Menus />
+            </Col>
+            <Col md={8}>
+              <Route path="/" component={Home} exact />
+              <Route path="/add-course" component={AddCourse} exact />
+              <Route path="/view-course" component={Allcourses} exact />
+              <Route path="/edit-course/:id" component={EditCourse} exact />
+            </Col>
+          </Row>
+        </Container>
+      </Router>
     </>
-   
   );
 }
 

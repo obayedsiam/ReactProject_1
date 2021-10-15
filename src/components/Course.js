@@ -1,6 +1,8 @@
 import React, { Component, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import base_url from "../api/bootapi";
+import EditCourse from "./EditCourse";
 import {
   Card,
   CardBody,
@@ -39,7 +41,9 @@ const Course = ({ course, update }) => {
             <Button color="danger" onClick={btnHandler}>
               Delete
             </Button>
-            <Button color="warning ms-3">Update</Button>
+            <Link to={`/edit-course/${course.id}`}>
+              <Button color="warning ms-3">Update</Button>
+            </Link>
           </Container>
         </CardBody>
       </Card>
