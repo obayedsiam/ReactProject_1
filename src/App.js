@@ -25,7 +25,7 @@ function App() {
             <Col md={4}>
               <Menus />
             </Col>
-            <Col md={8}>
+            <Col md={8}> 
               <Route path="/" component={Home} exact />
               <Route path="/add-course" component={AddCourse} exact />
               <Route path="/view-course" component={Allcourses} exact />
