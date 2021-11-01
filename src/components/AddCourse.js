@@ -1,11 +1,18 @@
 import { ToastContainer, toast } from "react-toastify";
 import { useState, useEffect, Fragment } from "react";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { callApi, selectApi } from "../Reducers/apiSlice";
 import axios from "axios";
 import base_url from "../api/bootapi";
 import "react-toastify/dist/ReactToastify.css";
+import { call } from "@redux-saga/core/effects";
 
 const AddCourse = () => {
+  
+    const dispatch = useDispatch();
+    const {addedCourse} = useSelector(selectApi);
+
   useEffect(() => {
     document.title = "Add Course";
   }, []);
@@ -20,15 +27,30 @@ const AddCourse = () => {
   };
 
   const postDatatoServer = (data) => {
-    axios
-      .post(`${base_url}/course`, data)
-      .then((response) => {
-        console.log(response, "Course Added");
-        toast.success("Course Added");
-      })
-      .catch((error) => {
-        toast.error("Error occured");
-      });
+    console.log("Entered into post data to server function ");
+      dispatch(callApi({
+        operationId: `${base_url}/course`,
+        output: "addedCourse",
+        parameters: 
+        { 
+          header: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+          method: "POST",      
+       },
+     
+      }))
+  
+    // axios
+    //   .post(`${base_url}/course`, data)
+    //   .then((response) => {
+    //     console.log(response, "Course Added");
+    //     toast.success("Course Added");
+    //   })
+    //   .catch((error) => {
+    //     toast.error("Error occured");
+    //   });
   };
 
   return (

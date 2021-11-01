@@ -11,11 +11,24 @@ export default function* Sagas(){
 
 
 function* performApiAction(action) {
-    const { payload: { output = "output", operationId = "", parameters = {} },} = action;
-
+    console.log("Entered into perform action");
+    console.log(action,"action");
+    const { payload: { output = "output", operationId = "", parameters = {} }} = action;
+    //console.log(,"action");
+   // console.log(parameters,"params");
     try {
-        let response = yield call(()=> fetcher (operationId, parameters));
-    }catch (error) {
+       
+        let response = yield call(()=>{ fetcher(operationId, parameters)});
+        yield put(
+          succeed({
+            response,
+            output,
+          })
+        );
+    }
+    catch (error) {
+      alert("okk")
+      console.log("printing response after fetcher call ttt");
         yield put(
           failed({
             error: error.response

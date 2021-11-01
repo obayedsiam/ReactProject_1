@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    response : false,
+    response : "",
     error : null,
     operationId: null,
     parameters: null,
@@ -12,15 +12,14 @@ export const apiSlice = createSlice(
     {
         name: "api",
         initialState,
-        reducer : {
-            callApi : (state, {payload}) =>(
-                {
+        reducers : {
+            callApi: (state, {payload}) =>({
+                    ...state,
                     loading: true,
                     operationId: payload.operationId,
                     parameters: payload.parameters || {}
-                }
-            ),
-            succeed : (state, { payload }) => {
+                }),
+            succeed: (state, {payload}) => {
                 const output = payload.output || "output";
                 return {
                   ...state,
