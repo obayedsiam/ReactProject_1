@@ -10,9 +10,9 @@ import { Button, Input, Container } from "reactstrap";
 
 const Allcourses = () => {
   const [courses, setCourses] = useState({ title: "", description: "" });
-
+  const weatherApi = "current.json?key=e94b9f8a2f354578ba264530210211&q=London&aqi=no";
    const {courseList} = useSelector(selectApi);
-   console.log(courseList, "printing courselist");
+ 
    const dispatch = useDispatch();
    //console.log(courseList, "cpokhdfkg");
 
@@ -25,12 +25,22 @@ const Allcourses = () => {
   useEffect(() => {
     document.title = "Courses";
     //console.log(callApi, "printing call api function");
-    getALLCourses();
+    
+    dispatch(
+      callApi({
+        operationId : `${base_url}/course`,
+        output: "courseList",
+      }
+    )
+    )
+    //getALLCourses();
     
   }, []);
 
+  console.log(courseList, "coureseList first")
+
   const getALLCourses = () => {
-  //  console.log("Entered into get all course ");
+  // console.log("Entered into get all course ");
      dispatch(
       callApi({
         operationId : `${base_url}/course`,
@@ -38,22 +48,24 @@ const Allcourses = () => {
       }
     )
     )
-    // axios.get(`${base_url}/course`).then(
-    //   (response) => {
-    //     console.log(response.data, "Successfull");
-    //     setCourses(response.data);
-    //     {
-    //       response.data.length > 0
-    //         ? toast.success("All Course Loaded !!")
-    //         : toast.success("No Courses Found");
-    //     }
-    //   },
-    //   (error) => {
-    //     console.log(error, "Found error from your code");
-    //     toast.error("Couldn't load Data");
-    //   }
-    // );
-  };
+  //   axios.get(`${base_url}/course`).then(
+  //     (response) => {
+  //       console.log(response.data, "Successfull");
+  //       setCourses(response.data);
+  //       {
+  //         response.data.length > 0
+  //           ? toast.success("All Course Loaded !!")
+  //           : toast.success("No Courses Found");
+  //       }
+  //     },
+  //     (error) => {
+  //       console.log(error, "Found error from your code");
+  //       toast.error("Couldn't load Data");
+  //     }
+  //   );
+
+  console.log(courseList, "printing courselist");
+   };
 
   const updateAfterDelete = (id) => {
   //  setCourses(courses.filter((c) => c.id != id));

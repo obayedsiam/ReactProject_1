@@ -1,20 +1,18 @@
 import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import createSagasMiddleware from 'redux-saga';
 import ApiReducer from "./apiSlice";
-import sagas from '../Sagas';
+import sagas from '../sagas';
 
 const sagaMiddleware = createSagasMiddleware();
 
 const middleware = [
     ...getDefaultMiddleware({
         serializableCheck: false,
-    }), sagaMiddleware
+    }), sagaMiddleware,
 ];
-export default configureStore(
-{
+export default configureStore({
    reducer : {
        api : ApiReducer,
-
    }, middleware   
 });
 
