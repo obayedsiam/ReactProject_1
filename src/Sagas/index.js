@@ -12,27 +12,33 @@ export default function* Sagas(){
 
 function* performApiAction(action) {
     console.log("Entered into perform action");
-    console.log(action,"action");
-    const { payload: { output = "output", operationId = "", parameters = {} },} = action;
+  //  console.log(action,"action");
+   
+  const { payload: { output = "output", operationId = "", parameters = {} },} = action;
     //console.log(,"action");
    // console.log(parameters,"params");
-    try {
+    
+   //console.log(fetcher, "printng fetcher");
+   try {
        
-        let response = yield call(()=>{ fetcher(operationId, parameters)});
+        let response = yield call(()=> fetcher(operationId, parameters));
       
-        console.log(response, "response in saga after fetch"); 
+        var ret = JSON.parse(response);
+        console.log(ret, "response in saga after fetch"); 
         
         yield put(
           succeed({
-            response,
+            ret,
             output,
           })
         );
 
-       if(response = "undefined"){
-        console.log(response, "entered into if condition"); 
-        performApiAction(action);
-       }
+      //  if(response = "undefined"){
+      //   console.log(response, "entered into if condition"); 
+      //   performApiAction(action);
+      //  }
+
+      
     }
     catch (error) {
       alert("okk")

@@ -9,13 +9,13 @@ import { ToastContainer, toast } from "react-toastify";
 import { Button, Input, Container } from "reactstrap";
 import useListApi from "./useListApi";
 
-const Allcourses = () => {
+const Allcourses = (props) => {
   const [courses, setCourses] = useState({ title: "", description: "" });
 //  const weatherApi = "current.json?key=e94b9f8a2f354578ba264530210211&q=London&aqi=no";
 
-  const {courseList} = useSelector(selectApi);
+
  
- const tableProps = {
+ const tableProps = { 
   headers: [
     { id: "id", label: "#" },
     { id: "title", label: "title" },
@@ -27,14 +27,18 @@ const Allcourses = () => {
   }
 };
 
- // const {data} = useListApi(tableProps.config);
 
- // console.log(data, "printing data");
+
+//const {courseList} = useSelector(selectApi);
+
+const {data} = useListApi(tableProps.config);
+
+
   
   const dispatch = useDispatch();
    //console.log(courseList, "cpokhdfkg");
 
- 
+ console.log(data, "printing data");
 
   // { title: "Java ", description: "This is a Java Course" },
   // { title: "React", description: "This is a React Course" },
@@ -43,7 +47,7 @@ const Allcourses = () => {
   useEffect(() => {
     document.title = "Courses";
     //console.log(callApi, "printing call api function");
-    //getALLCourses();
+    getALLCourses();
     
   }, []);
 
@@ -62,6 +66,8 @@ const Allcourses = () => {
       }
     )
     )
+
+
   //   axios.get(`${base_url}/course`).then(
   //     (response) => {
   //       console.log(response.data, "Successfull");
@@ -80,6 +86,8 @@ const Allcourses = () => {
 
   //console.log(courseList, "printing courselist");
    };
+
+   console.log(data, "printing courseList");
 
   const updateAfterDelete = (id) => {
   //  setCourses(courses.filter((c) => c.id != id));

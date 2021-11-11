@@ -1,7 +1,7 @@
 import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import createSagasMiddleware from 'redux-saga';
 import ApiReducer from "./apiSlice";
-import sagas from '../sagas';
+import Sagas from '../sagas';
 
 const sagaMiddleware = createSagasMiddleware();
 
@@ -16,6 +16,6 @@ export default configureStore({
    }, middleware   
 });
 
-sagaMiddleware.run(sagas);
+sagaMiddleware.run(Sagas);
 
 

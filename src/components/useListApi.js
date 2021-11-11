@@ -11,6 +11,8 @@ const useListApi = ({operationId, output}) => {
     }
   } = useSelector(selectApi);
   
+
+  //console.log(data, "Prinitng data in useListApi");
   const dispatch = useDispatch();
   
   useEffect(() => {
