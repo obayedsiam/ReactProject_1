@@ -1,7 +1,9 @@
 import React, { Component, useEffect } from "react";
 import axios from "axios";
+import { callApi, selectApi} from '../Reducers/apiSlice';
 import { Link } from "react-router-dom";
 import base_url from "../api/bootapi";
+import { useSelector, useDispatch } from "react-redux";
 import EditCourse from "./EditCourse";
 import {
   Card,
@@ -17,17 +19,36 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 
 const Course = ({ course, update }) => {
+
+  const dispatch = useDispatch();
+
   const btnHandler = () => {
-    axios.delete(`${base_url}/course/${course.id}`).then(
-      (response) => {
-        console.log("Course Added");
-        update(course.id);
-        toast.success("Deleted");
-      },
-      (error) => {
-        toast.error("Error occured");
+
+    dispatch(
+      callApi({
+        operationId :`${base_url}/course/delete/${course.id}`,
+        output: "delete",
+        parameters: {
+          method: "DELETE"
+        }
+       
       }
-    );
+    )
+    )
+  //  update(course.id);
+    // axios.delete(`${base_url}/course/${course.id}`).then(
+    //   (response) => {
+    //     console.log("Course Added");
+    //     update(course.id);
+    //     toast.success("Deleted");
+    //   },
+    //   (error) => {
+    //     toast.error("Error occured");
+    //   }
+    // );
+
+
+
   };
 
   return (

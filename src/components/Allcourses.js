@@ -10,7 +10,7 @@ import { Button, Input, Container } from "reactstrap";
 import useListApi from "./useListApi";
 
 const Allcourses = (props) => {
-  const [courses, setCourses] = useState({ title: "", description: "" });
+  const [courses, setCourses] = useState({ id: 0, title: "", description: "" });
 //  const weatherApi = "current.json?key=e94b9f8a2f354578ba264530210211&q=London&aqi=no";
 
 
@@ -31,21 +31,22 @@ const Allcourses = (props) => {
 
 //const {courseList} = useSelector(selectApi);
 
+
 const {data} = useListApi(tableProps.config);
 
 
   
   const dispatch = useDispatch();
-   //console.log(courseList, "cpokhdfkg");
+  // console.log(data, "cpokhdfkg");
 
- console.log(data, "printing data");
+ //console.log(data, "printing data");
 
   // { title: "Java ", description: "This is a Java Course" },
   // { title: "React", description: "This is a React Course" },
   // { title: "Django", description: "This is a Django Course" },
 
   useEffect(() => {
-    document.title = "Courses";
+    document.title = "Course List";
     //console.log(callApi, "printing call api function");
     getALLCourses();
     
@@ -87,10 +88,10 @@ const {data} = useListApi(tableProps.config);
   //console.log(courseList, "printing courselist");
    };
 
-   console.log(data, "printing courseList");
+   //console.log(ret, "printing courseList");
 
   const updateAfterDelete = (id) => {
-  //  setCourses(courses.filter((c) => c.id != id));
+    setCourses(courses.filter((c) => c.id != id));
   };
 
   return (

@@ -23,15 +23,10 @@ function* performApiAction(action) {
        
         let response = yield call(()=> fetcher(operationId, parameters));
       
-        var ret = JSON.parse(response);
-        console.log(ret, "response in saga after fetch"); 
+        response = JSON.parse(response);
+        console.log(response, "response in saga after fetch"); 
         
-        yield put(
-          succeed({
-            ret,
-            output,
-          })
-        );
+        yield put(succeed({response,output}));
 
       //  if(response = "undefined"){
       //   console.log(response, "entered into if condition"); 
