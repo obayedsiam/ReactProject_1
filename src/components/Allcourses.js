@@ -91,7 +91,7 @@ const {data} = useListApi(tableProps.config);
    //console.log(ret, "printing courseList");
 
   const updateAfterDelete = (id) => {
-    setCourses(courses.filter((c) => c.id != id));
+    getALLCourses();
   };
 
   return (

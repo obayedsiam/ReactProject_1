@@ -35,7 +35,7 @@ const Course = ({ course, update }) => {
       }
     )
     )
-  //  update(course.id);
+    update(course.id);
     // axios.delete(`${base_url}/course/${course.id}`).then(
     //   (response) => {
     //     console.log("Course Added");

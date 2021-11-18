@@ -1,6 +1,8 @@
 import { ToastContainer, toast } from "react-toastify";
 import { useState, useEffect, Fragment } from "react";
+import { useDispatch } from "react-redux";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import { callApi } from "../Reducers/apiSlice";
 import axios from "axios";
 import base_url from "../api/bootapi";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const EditCourse = (props) => {
   // console.log("Edit Course opened");
 
+  const dispatch = useDispatch();
   const [course, setCourse] = useState(props);
 
   useEffect(() => {
@@ -39,16 +42,26 @@ const EditCourse = (props) => {
   };
 
   const updateDatatoServer = (data) => {
-    axios
-      .put(`${base_url}/course/${props.match.params.id}`, data)
-      .then((response) => {
-        console.log(response);
-        console.log(response, "Course updated");
-        toast.success("Course updated");
-      })
-      .catch((error) => {
-        toast.error("Error occured");
-      });
+
+    dispatch(callApi({
+      operationId : `${base_url}/course/edit/${props.match.params.id}`,
+      output: "courseList",
+      parameters: {
+        method : "PUT",
+        body: JSON.stringify(data)
+      }
+    }))
+
+    // axios
+    //   .put(`${base_url}/course/${props.match.params.id}`, data)
+    //   .then((response) => {
+    //     console.log(response);
+    //     console.log(response, "Course updated");
+    //     toast.success("Course updated");
+    //   })
+    //   .catch((error) => {
+    //     toast.error("Error occured");
+    //   });
   };
 
   return (

@@ -47,6 +47,6 @@ export const apiSlice = createSlice(
     export const {callApi, succeed, failed} = apiSlice.actions;
     export const selectApi = (state) => {
          
-        console.log(state, "state print");
+       // console.log(state, "state print");
        return state.api};
     export default apiSlice.reducer;
