@@ -20,7 +20,9 @@ export const apiSlice = createSlice(
                     parameters: payload.parameters || {}
                 }),
             succeed: (state, {payload}) => {
+                //console.log(payload,"printing payload in succeed");
                 const output = payload.output || "output";
+
                 return {
                   ...state,
                   loading: false,
@@ -41,6 +43,10 @@ export const apiSlice = createSlice(
         }
     });
 
+   // console.log(apiSlice.actions,"dfgdg");
     export const {callApi, succeed, failed} = apiSlice.actions;
-    export const selectApi = (state) => state.api;
+    export const selectApi = (state) => {
+         
+       // console.log(state, "state print");
+       return state.api};
     export default apiSlice.reducer;

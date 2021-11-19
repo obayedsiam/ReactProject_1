@@ -10,58 +10,36 @@ export default function* Sagas() {
 
 function* performApiAction(action) {
   console.log("Entered into perform action");
-  console.log(action, "action");
+  //  console.log(action,"action");
+
   const {
     payload: { output = "output", operationId = "", parameters = {} },
   } = action;
   //console.log(,"action");
   // console.log(parameters,"params");
+
+  //console.log(fetcher, "printng fetcher");
   try {
-    let response = yield call(() => {
-      fetcher(operationId, parameters);
-    });
+    let ret = yield call(() => fetcher(operationId, parameters));
+    console.log(ret, "ret in saga after fetch");
+
+    let response = ret;
+
+    if (response !== "") {
+      response = JSON.parse(ret);
+    }
 
     console.log(response, "response in saga after fetch");
 
-    yield put(
-      succeed({
-        response,
-        output,
-      })
-    );
+    yield put(succeed({ response, output }));
 
-    if ((response = "undefined")) {
-      console.log(response, "entered into if condition");
-      performApiAction(action);
-    }
+    //  if(response = "undefined"){
+    //   console.log(response, "entered into if condition");
+    //   performApiAction(action);
+    //  }
   } catch (error) {
     alert("okk");
-    console.log("printing response after fetcher call ttt");
-    yield put(
-      failed({
-        error: error.response
-          ? error.response.obj.error
-          : {
-              message: "Api call failed or check your internet connection",
-            },
-      })
-    );
-  }
-
-  console.log(parameters, "params");
-  try {
-    let response = yield call(() => {
-      fetcher(operationId, parameters);
-    });
-    yield put(
-      succeed({
-        response,
-        output,
-      })
-    );
-  } catch (error) {
-    alert("okk");
-    console.log("printing response after fetcher call ttt");
+    console.log(error, "printing error after fetcher call");
     yield put(
       failed({
         error: error.response

@@ -7,34 +7,44 @@ import axios from "axios";
 import { callApi, selectApi } from "../Reducers/apiSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { Button, Input, Container } from "reactstrap";
+import useListApi from "./useListApi";
 
-const Allcourses = () => {
-  const [courses, setCourses] = useState({ title: "", description: "" });
-  const weatherApi =
-    "current.json?key=e94b9f8a2f354578ba264530210211&q=London&aqi=no";
-  const { courseList } = useSelector(selectApi);
+const Allcourses = (props) => {
+  const [courses, setCourses] = useState({ id: 0, title: "", description: "" });
+  //  const weatherApi = "current.json?key=e94b9f8a2f354578ba264530210211&q=London&aqi=no";
+
+  const tableProps = {
+    headers: [
+      { id: "id", label: "#" },
+      { id: "title", label: "title" },
+      { id: "description", label: "description" },
+    ],
+    config: {
+      operationId: `${base_url}/course`,
+      output: "courseList",
+    },
+  };
+
+  //const {courseList} = useSelector(selectApi);
+
+  const { data } = useListApi(tableProps.config);
 
   const dispatch = useDispatch();
-  //console.log(courseList, "cpokhdfkg");
+  // console.log(data, "cpokhdfkg");
+
+  //console.log(data, "printing data");
 
   // { title: "Java ", description: "This is a Java Course" },
   // { title: "React", description: "This is a React Course" },
   // { title: "Django", description: "This is a Django Course" },
 
   useEffect(() => {
-    document.title = "Courses";
+    document.title = "Course List";
     //console.log(callApi, "printing call api function");
-
-    dispatch(
-      callApi({
-        operationId: `${base_url}/course`,
-        output: "courseList",
-      })
-    );
-    //getALLCourses();
+    getALLCourses();
   }, []);
 
-  console.log(courseList, "coureseList first");
+  //console.log(courseList, "coureseList first")
 
   const getALLCourses = () => {
     // console.log("Entered into get all course ");
@@ -44,6 +54,7 @@ const Allcourses = () => {
         output: "courseList",
       })
     );
+
     //   axios.get(`${base_url}/course`).then(
     //     (response) => {
     //       console.log(response.data, "Successfull");
@@ -60,11 +71,14 @@ const Allcourses = () => {
     //     }
     //   );
 
-    console.log(courseList, "printing courselist");
+    //console.log(courseList, "printing courselist");
   };
 
-  const updateAfterDelete = (id) => {
-    //  setCourses(courses.filter((c) => c.id != id));
+  //console.log(ret, "printing courseList");
+
+  const updateAfterDelete = () => {
+    console.log("update function called");
+    return <Allcourses />;
   };
 
   return (
@@ -72,8 +86,8 @@ const Allcourses = () => {
       <ToastContainer />
       <h1>All Courses</h1>
       <p>List of courses are as follows</p>
-      {courseList && courseList.length > 0
-        ? courseList.map((item, key) => (
+      {data && data.length > 0
+        ? data.map((item, key) => (
             <Course course={item} update={updateAfterDelete} />
           ))
         : "No Courses"}
