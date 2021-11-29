@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+//import logo from "./logo.svg";
 import "./App.css";
 import { Button, Row, Col, Container, Carousel } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,12 +8,12 @@ import AddCourse from "./components/AddCourse";
 import Header from "./components/Header";
 import Menus from "./components/Menus";
 import EditCourse from "./components/EditCourse";
-import ExampleHeader from "./components/ExampleHeader";
-import CarouselEx from "./components/CarouselEx";
-import { Card } from "reactstrap";
+//import ExampleHeader from "./components/ExampleHeader";
+//import CarouselEx from "./components/CarouselEx";
+//import { Card } from "reactstrap";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import ImageList from "./components/ImageList";
-import MyAccount from "./components/MyAccount";
+//import ImageList from "./components/ImageList";
+//import MyAccount from "./components/MyAccount";
 
 function App() {
   const imgs = [

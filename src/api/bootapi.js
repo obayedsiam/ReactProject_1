@@ -1,6 +1,5 @@
- const base_url = "http://localhost:9090";
+const base_url = "http://192.168.31.100:9090";
 
 //const base_url = "http://api.weatherapi.com/v1/"
 
-
-export default base_url ;
+export default base_url;

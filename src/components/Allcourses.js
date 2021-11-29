@@ -3,10 +3,10 @@ import Course from "./Course";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import base_url from "../api/bootapi";
-import axios from "axios";
+//import axios from "axios";
 import { callApi, selectApi } from "../Reducers/apiSlice";
 import { ToastContainer, toast } from "react-toastify";
-import { Button, Input, Container } from "reactstrap";
+//import { Button, Input, Container } from "reactstrap";
 import useListApi from "./useListApi";
 
 const Allcourses = (props) => {
@@ -47,7 +47,7 @@ const Allcourses = (props) => {
   //console.log(courseList, "coureseList first")
 
   const getALLCourses = () => {
-    // console.log("Entered into get all course ");
+    //console.log("Entered into get all course ");
     dispatch(
       callApi({
         operationId: `${base_url}/course`,
@@ -77,8 +77,8 @@ const Allcourses = (props) => {
   //console.log(ret, "printing courseList");
 
   const updateAfterDelete = () => {
-    console.log("update function called");
-    return <Allcourses />;
+    //   console.log("update function called");
+    getALLCourses();
   };
 
   return (

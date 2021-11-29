@@ -8,7 +8,7 @@ const fetcher = async (url, options = {}) => {
   const method = options.method || "get";
 
   if (method === "get" || method === "GET") {
-    console.log("Entered into method condition");
+    //  console.log("Entered into method condition");
     Object.keys(options).forEach((key) =>
       url.searchParams.append(key, options[key])
     );

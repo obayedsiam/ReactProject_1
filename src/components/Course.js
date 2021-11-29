@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import { callApi, selectApi } from "../Reducers/apiSlice";
 import { Link } from "react-router-dom";
@@ -21,6 +21,15 @@ import { ToastContainer, toast } from "react-toastify";
 const Course = ({ course, update }) => {
   const dispatch = useDispatch();
 
+  const [deleted, setDeleted] = useState("False");
+
+  useEffect(() => {
+    document.title = "Course List";
+    //console.log(callApi, "printing call api function");
+    update();
+    setDeleted("False");
+  }, [deleted]);
+
   const btnHandler = () => {
     dispatch(
       callApi({
@@ -31,7 +40,7 @@ const Course = ({ course, update }) => {
         },
       })
     );
-    update();
+    setDeleted("True");
     // axios.delete(`${base_url}/course/${course.id}`).then(
     //   (response) => {
     //     console.log("Course Added");

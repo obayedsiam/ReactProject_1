@@ -1,36 +1,59 @@
 import { ToastContainer, toast } from "react-toastify";
 import { useState, useEffect, Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
-import { callApi } from "../Reducers/apiSlice";
+import { callApi, selectApi } from "../Reducers/apiSlice";
 import axios from "axios";
 import base_url from "../api/bootapi";
 import "react-toastify/dist/ReactToastify.css";
+import useListApi from "./useListApi";
 
 const EditCourse = (props) => {
-  // console.log("Edit Course opened");
+  console.log("Edit Course opened with ", props);
 
   const dispatch = useDispatch();
   const [course, setCourse] = useState(props);
 
+  const tableProps = {
+    headers: [
+      { id: "id", label: "#" },
+      { id: "title", label: "title" },
+      { id: "description", label: "description" },
+    ],
+    config: {
+      operationId: `${base_url}/course/${props.match.params.id}`,
+      output: "courseEdit",
+      mode: "no-cors",
+    },
+  };
+
+  const { data } = useListApi(tableProps.config);
+  console.log(data, "printing data in edit Course");
   useEffect(() => {
     document.title = "Update Course";
-    getCourses();
+    getCourse();
   }, []);
 
-  const getCourses = () => {
-    console.log(`${props.match.params.id}`, "reached to getcourse");
-    axios.get(`${base_url}/course/${props.match.params.id}`).then(
-      (response) => {
-        console.log(response.data, "Successfull");
-        setCourse(response.data);
-        //   toast.success("Course Loaded !!");
-      },
-      (error) => {
-        console.log(error, "Found error from your code");
-        toast.error("Couldn't load Data");
-      }
-    );
+  const getCourse = () => {
+    // dispatch(
+    //   callApi({
+    //     operationId: `${base_url}/course/${props.match.params.id}`,
+    //     method: "GET",
+    //   })
+    // );
+    setCourse(data);
+    // console.log(`${props.match.params.id}`, "reached to getcourse");
+    // axios.get(`${base_url}/course/${props.match.params.id}`).then(
+    //   (response) => {
+    //     console.log(response.data, "Successfull");
+    //     setCourse(response.data);
+    //     //   toast.success("Course Loaded !!");
+    //   },
+    //   (error) => {
+    //     console.log(error, "Found error from your code");
+    //     toast.error("Couldn't load Data");
+    //   }
+    // );
   };
 
   const courseUpdateHandler = (e) => {
@@ -42,15 +65,16 @@ const EditCourse = (props) => {
   };
 
   const updateDatatoServer = (data) => {
-
-    dispatch(callApi({
-      operationId : `${base_url}/course/edit/${props.match.params.id}`,
-      output: "courseList",
-      parameters: {
-        method : "PUT",
-        body: JSON.stringify(data)
-      }
-    }))
+    dispatch(
+      callApi({
+        operationId: `${base_url}/course/edit/${props.match.params.id}`,
+        output: "courseList",
+        parameters: {
+          method: "PUT",
+          body: JSON.stringify(data),
+        },
+      })
+    );
 
     // axios
     //   .put(`${base_url}/course/${props.match.params.id}`, data)
@@ -85,10 +109,10 @@ const EditCourse = (props) => {
           <label htmlFor="title">Course title </label>
           <Input
             type="text"
-            placeholder=""
+            placeholder={data.title}
             name="title"
             id="title"
-            value={course.title}
+            value={data.title}
             onChange={(e) => {
               setCourse({ ...course, title: e.target.value });
             }}
@@ -98,8 +122,8 @@ const EditCourse = (props) => {
           <label>Description</label>
           <Input
             type="textarea"
-            placeholder={course.description}
-            // value={`${course.description}`}
+            placeholder={data.description}
+            value={data.description}
             id="description"
             onChange={(e) => {
               setCourse({ ...course, description: e.target.value });

@@ -3,10 +3,10 @@ import { useState, useEffect, Fragment } from "react";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { callApi, selectApi } from "../Reducers/apiSlice";
-import axios from "axios";
+//import axios from "axios";
 import base_url from "../api/bootapi";
 import "react-toastify/dist/ReactToastify.css";
-import { call } from "@redux-saga/core/effects";
+//import { call } from "@redux-saga/core/effects";
 
 const AddCourse = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const AddCourse = () => {
   };
 
   const postDatatoServer = (data) => {
-    console.log(data, "Entered into post data to server function ");
+    //  console.log(data, "Entered into post data to server function ");
     dispatch(
       callApi({
         operationId: `${base_url}/course`,
