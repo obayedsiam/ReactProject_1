@@ -20,7 +20,7 @@ function App() {
     <>
       <Router>
         <Container>
-          <Header></Header>
+          {/* <Header></Header> */}
           <Row>
             <Col md={4}>
               <Menus />

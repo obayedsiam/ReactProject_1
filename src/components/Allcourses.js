@@ -10,11 +10,10 @@ import { Button, Input, Container } from "reactstrap";
 import useListApi from "./useListApi";
 
 const Allcourses = (props) => {
-  const [courses, setCourses] = useState({ id: 0, title: "", description: "" });
+  //const [courses, setCourses] = useState({ id: 0, title: "", description: "" });
+  const [reload, setReload] = useState(false)
 //  const weatherApi = "current.json?key=e94b9f8a2f354578ba264530210211&q=London&aqi=no";
 
-
- 
  const tableProps = { 
   headers: [
     { id: "id", label: "#" },
@@ -33,7 +32,7 @@ const Allcourses = (props) => {
 
 
 const {data} = useListApi(tableProps.config);
-
+console.log("data reloaded", data);
 
   
   const dispatch = useDispatch();
@@ -48,11 +47,23 @@ const {data} = useListApi(tableProps.config);
   useEffect(() => {
     document.title = "Course List";
     //console.log(callApi, "printing call api function");
-    getALLCourses();
+   // getALLCourses();
     
-  }, []);
+  });
 
-  
+  useEffect(() => {
+    document.title = "Course List";
+    console.log("entered into use effect");
+    dispatch(
+      callApi({
+        operationId : `${base_url}/course`,
+        output: "courseList",
+      }
+    )
+    )
+ //   getALLCourses();
+    setReload(false);
+  }, [reload]);
 
 
 
@@ -90,15 +101,16 @@ const {data} = useListApi(tableProps.config);
 
    //console.log(ret, "printing courseList");
 
-  const updateAfterDelete = (id) => {
-    getALLCourses();
+  const updateAfterDelete = () => {
+    console.log("deleted");
+    setReload(true);
   };
 
   return (
     <div>
       <ToastContainer />
-      <h1>All Courses</h1>
-      <p>List of courses are as follows</p>
+      {/* <h1>All Courses</h1>
+      <p>List of courses are as follows</p> */}
       {data && data.length > 0
         ? data.map((item, key) => (
             <Course course={item} update={updateAfterDelete} />

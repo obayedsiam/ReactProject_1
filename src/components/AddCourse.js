@@ -55,7 +55,7 @@ const AddCourse = () => {
 
   return (
     <Fragment>
-      <h1 className="text-center my=3">Fill up the form </h1>
+      {/* <h1 className="text-center my=3">Fill up the form </h1> */}
       <Form onSubmit={courseHandler}>
         <FormGroup>
           <label htmlFor="userId">User Id</label>
@@ -96,10 +96,12 @@ const AddCourse = () => {
 
         <Container className="text-center my-3">
           <ToastContainer />
-          <Button color="success" type="submit">
+          <Button type="submit">
+          {/* //color="success"   */}
             Add Course
           </Button>
-          <Button color="warning ms-2" type="reset">
+          <Button type="reset">
+          {/* color="warning ms-2"  */}
             Clear
           </Button>
         </Container>

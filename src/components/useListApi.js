@@ -12,7 +12,7 @@ const useListApi = ({ operationId, output }) => {
   } = useSelector(selectApi);
 
 
-  console.log(courseList, "Prinitng data in useListApi");
+ // console.log(courseList, "Prinitng data in useListApi");
   const dispatch = useDispatch();
 
   useEffect(() => {
