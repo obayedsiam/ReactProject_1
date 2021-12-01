@@ -44,6 +44,15 @@ const Menus = () => {
       >
         Contact
       </Link>
+
+      <Link
+        className="list-group-item list-group-item-action"
+        tag="a"
+        to="/login"
+        action="true"
+      >
+        Login
+      </Link>
     </ListGroup>
   );
 };

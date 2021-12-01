@@ -40,7 +40,7 @@ const Course = ({ course, update }) => {
         },
       })
     );
-    setDeleted("True");
+    update();
     // axios.delete(`${base_url}/course/${course.id}`).then(
     //   (response) => {
     //     console.log("Course Added");
@@ -61,11 +61,15 @@ const Course = ({ course, update }) => {
           <CardSubtitle className="fw-bold"> {course.title}</CardSubtitle>
           <CardText>{course.description}</CardText>
           <Container className="text-center">
-            <Button color="danger" onClick={btnHandler}>
+            <Button onClick={btnHandler}>
+              {/* color="danger"  */}
               Delete
             </Button>
             <Link to={`/edit-course/${course.id}`}>
-              <Button color="warning ms-3">Update</Button>
+              <Button>
+                {/* color="warning ms-3" */}
+                Update
+              </Button>
             </Link>
           </Container>
         </CardBody>

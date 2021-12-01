@@ -5,77 +5,92 @@ import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { callApi, selectApi } from "../Reducers/apiSlice";
 import axios from "axios";
 import base_url from "../api/bootapi";
-import "react-toastify/dist/ReactToastify.css";
 import useListApi from "./useListApi";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditCourse = (props) => {
-  console.log("Edit Course opened with ", props);
-
   const dispatch = useDispatch();
-  const [course, setCourse] = useState(props);
+  const [course, setCourse] = useState({ id: "", title: "", description: "" });
+  //const [field, setField] = useState(false);
 
   const tableProps = {
-    headers: [
-      { id: "id", label: "#" },
-      { id: "title", label: "title" },
-      { id: "description", label: "description" },
-    ],
+    // headers: [
+    //   { id: "id", label: "#" },
+    //   { id: "title", label: "title" },
+    //   { id: "description", label: "description" },
+    // ],
     config: {
       operationId: `${base_url}/course/${props.match.params.id}`,
-      output: "courseEdit",
-      mode: "no-cors",
+      output: "addedCourse",
     },
   };
 
   const { data } = useListApi(tableProps.config);
   console.log(data, "printing data in edit Course");
+
   useEffect(() => {
     document.title = "Update Course";
-    getCourse();
-  }, []);
+    getCourse(course);
+    console.log("use effect called course)", course);
+    //  console.log("printing data",course);
+  }, [course]);
 
-  const getCourse = () => {
-    // dispatch(
-    //   callApi({
-    //     operationId: `${base_url}/course/${props.match.params.id}`,
-    //     method: "GET",
-    //   })
-    // );
-    setCourse(data);
-    // console.log(`${props.match.params.id}`, "reached to getcourse");
-    // axios.get(`${base_url}/course/${props.match.params.id}`).then(
-    //   (response) => {
-    //     console.log(response.data, "Successfull");
-    //     setCourse(response.data);
-    //     //   toast.success("Course Loaded !!");
-    //   },
-    //   (error) => {
-    //     console.log(error, "Found error from your code");
-    //     toast.error("Couldn't load Data");
-    //   }
-    // );
+  useEffect(() => {
+    document.title = "Update Course";
+    getCourse(data);
+    console.log("use effect called data", data);
+  }, [data]);
+
+  // console.log("printing data", data);
+  //  console.log("printing course", course);
+
+  const getCourse = (value) => {
+    setCourse(value);
+
+    // dispatch(callApi({
+    //   operationId : `${base_url}/course/${props.match.params.id}`,
+    //   output: "courseList",
+    //   // parameters: {
+    //   //   method : "GET",
+    //   //}
+    // }))
+
+    //   setCourse(data);
+    //   axios.get(`${base_url}/course/${props.match.params.id}`).then(
+    //     (response) => {
+    //       console.log(response.data, "Successfull");
+    //       setCourse(response.data);
+    //       //   toast.success("Course Loaded !!");
+    //     },
+    //     (error) => {
+    //       console.log(error, "Found error from your code");
+    //       toast.error("Couldn't load Data");
+    //     }
+    //   );
   };
 
+  // console.log(course, "reached after getcourse");
   const courseUpdateHandler = (e) => {
-    setCourse({ ...course, id: props.id });
-    //    toast.success("Course Added");
+    //  setType(true);
+    //  setCourse({ ...course,});
+    //  toast.success("Course Added");
     console.log(course, "Submitted");
     updateDatatoServer(course);
     e.preventDefault();
   };
 
   const updateDatatoServer = (data) => {
+    console.log(course, "Submitted server");
     dispatch(
       callApi({
         operationId: `${base_url}/course/edit/${props.match.params.id}`,
-        output: "courseList",
+        output: "addedCourse",
         parameters: {
           method: "PUT",
           body: JSON.stringify(data),
         },
       })
     );
-
     // axios
     //   .put(`${base_url}/course/${props.match.params.id}`, data)
     //   .then((response) => {
@@ -90,29 +105,31 @@ const EditCourse = (props) => {
 
   return (
     <Fragment>
-      <h1 className="text-center my=3">Update Course</h1>
+      {/* <h1 className="text-center my=3">Update Course</h1> */}
       <Form onSubmit={courseUpdateHandler}>
-        {/* <FormGroup>
+        <FormGroup>
           <label htmlFor="userId">User Id</label>
           <Input
             type="text"
             name="userId"
-            placeholder={data.id}
+            placeholder={course.id}
+            value={course.id}
             id="UserId"
             onChange={(e) => {
               setCourse({ ...course, id: e.target.value });
               //  console.log(course, "Id changed");
             }}
           />
-        </FormGroup> */}
+        </FormGroup>
+
         <FormGroup>
           <label htmlFor="title">Course title </label>
           <Input
             type="text"
-            placeholder={data.title}
+            placeholder={course.title}
             name="title"
             id="title"
-            value={data.title}
+            value={course.title}
             onChange={(e) => {
               setCourse({ ...course, title: e.target.value });
             }}
@@ -122,8 +139,8 @@ const EditCourse = (props) => {
           <label>Description</label>
           <Input
             type="textarea"
-            placeholder={data.description}
-            value={data.description}
+            placeholder={course.description}
+            value={course.description}
             id="description"
             onChange={(e) => {
               setCourse({ ...course, description: e.target.value });
@@ -133,12 +150,9 @@ const EditCourse = (props) => {
 
         <Container className="text-center my-3">
           <ToastContainer />
-          <Button color="success" type="submit">
-            Update Course
-          </Button>
-          <Button color="warning ms-2" type="reset">
-            Clear
-          </Button>
+          <Button type="submit">Update Course</Button>
+
+          <Button type="reset">Clear</Button>
         </Container>
       </Form>
     </Fragment>

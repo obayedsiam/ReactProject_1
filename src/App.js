@@ -8,6 +8,7 @@ import AddCourse from "./components/AddCourse";
 import Header from "./components/Header";
 import Menus from "./components/Menus";
 import EditCourse from "./components/EditCourse";
+import Login from "./components/Login/Login";
 //import ExampleHeader from "./components/ExampleHeader";
 //import CarouselEx from "./components/CarouselEx";
 //import { Card } from "reactstrap";
@@ -29,7 +30,7 @@ function App() {
     <>
       <Router>
         <Container>
-          <Header></Header>
+          {/* <Header></Header> */}
           <Row>
             <Col md={4}>
               <Menus />
@@ -39,6 +40,7 @@ function App() {
               <Route path="/add-course" component={AddCourse} exact />
               <Route path="/view-course" component={Allcourses} exact />
               <Route path="/edit-course/:id" component={EditCourse} exact />
+              <Route path="/login" component={Login} exact />
             </Col>
           </Row>
         </Container>

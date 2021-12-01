@@ -9,7 +9,7 @@ export default function* Sagas() {
 }
 
 function* performApiAction(action) {
-  // console.log("Entered into perform action");
+  //    console.log("Entered into perform action");
   //  console.log(action,"action");
 
   const {
@@ -21,7 +21,7 @@ function* performApiAction(action) {
   //console.log(fetcher, "printng fetcher");
   try {
     let ret = yield call(() => fetcher(operationId, parameters));
-    // console.log(ret, "ret in saga after fetch");
+    //  console.log(ret, "ret in saga after fetch");
 
     let response = ret;
 
@@ -38,8 +38,7 @@ function* performApiAction(action) {
     //   performApiAction(action);
     //  }
   } catch (error) {
-    alert("okk");
-    //  console.log(error, "printing error after fetcher call");
+    console.log(error, "printing error after fetcher call");
     yield put(
       failed({
         error: error.response

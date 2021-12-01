@@ -8,9 +8,11 @@ import { callApi, selectApi } from "../Reducers/apiSlice";
 import { ToastContainer, toast } from "react-toastify";
 //import { Button, Input, Container } from "reactstrap";
 import useListApi from "./useListApi";
+import { Input, Button } from "reactstrap";
 
 const Allcourses = (props) => {
-  const [courses, setCourses] = useState({ id: 0, title: "", description: "" });
+  //const [courses, setCourses] = useState({ id: 0, title: "", description: "" });
+  const [reload, setReload] = useState(false);
   //  const weatherApi = "current.json?key=e94b9f8a2f354578ba264530210211&q=London&aqi=no";
 
   const tableProps = {
@@ -28,6 +30,7 @@ const Allcourses = (props) => {
   //const {courseList} = useSelector(selectApi);
 
   const { data } = useListApi(tableProps.config);
+  console.log("data reloaded", data);
 
   const dispatch = useDispatch();
   // console.log(data, "cpokhdfkg");
@@ -41,8 +44,21 @@ const Allcourses = (props) => {
   useEffect(() => {
     document.title = "Course List";
     //console.log(callApi, "printing call api function");
-    getALLCourses();
-  }, []);
+    // getALLCourses();
+  });
+
+  useEffect(() => {
+    document.title = "Course List";
+    console.log("entered into use effect");
+    dispatch(
+      callApi({
+        operationId: `${base_url}/course`,
+        output: "courseList",
+      })
+    );
+    //   getALLCourses();
+    setReload(false);
+  }, [reload]);
 
   //console.log(courseList, "coureseList first")
 
@@ -77,15 +93,19 @@ const Allcourses = (props) => {
   //console.log(ret, "printing courseList");
 
   const updateAfterDelete = () => {
-    //   console.log("update function called");
-    getALLCourses();
+    console.log("deleted");
+    setReload(true);
   };
 
   return (
     <div>
       <ToastContainer />
-      <h1>All Courses</h1>
-      <p>List of courses are as follows</p>
+      <div>
+        <Input placeholder="Search" type="search"></Input>
+        <Button>Search</Button>
+      </div>
+      {/* <h1>All Courses</h1>
+      <p>List of courses are as follows</p> */}
       {data && data.length > 0
         ? data.map((item, key) => (
             <Course course={item} update={updateAfterDelete} />

@@ -34,15 +34,27 @@ const fetcher = async (url, options = {}) => {
   //       }
   //     );
 
-  //     console.log(ret, "printing ret");
+  //  axios.get(url).then(
+  //       (response) => {
+  //         ret = response;
+  //         console.log(response.data, "Successfull");
+  //      //   ret = response.data;
+  //      //   console.log(ret, "ret inside axios")
+  //         return response;
+  //       //  setCourses(response.data);
+  //         {
+  //            response.data.length > 0
+  //              ? toast.success("All Course Loaded !!")
+  //              : toast.success("No Courses Found");
+  //         }
+  //       },
+  //       (error) => {
+  //         console.log(error, "Found error from your code");
+  //         toast.error("Couldn't load Data");
+  //       }
+  //     );
 
-  // const ret = await axios.get(url).then((res) => {
-  //   console.log(res.data, "res.data printing inside axios");
-  //   return res.data;
-  // })
-  // .catch(() => {
-  //   console.log("fail");
-  // });
+  //     console.log(ret, "printing ret");
 
   // const ret = await axios.get(url).then((res) => {
   //   console.log(res.data, "res.data printing inside axios");
