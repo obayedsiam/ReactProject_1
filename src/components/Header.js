@@ -1,13 +1,17 @@
 import React from "react";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, Input } from "reactstrap";
+import Navbar from "./NavbarComp";
 
 const Header = (title, name) => {
   return (<div className = "text-center my-5">
     
-    <Card className = "my-2 bg-warning">
+    {/* className = "my-2 bg-warning" */}
+    <Card >
       <CardBody>
-      <h1>Welcome to Courses</h1>
+      {/* <h1>Welcome to Courses</h1> */}
+      <Input type = "search" placeholder = "Search"></Input>
       </CardBody>
+      <Navbar></Navbar>  
     </Card>
     </div>
      );
