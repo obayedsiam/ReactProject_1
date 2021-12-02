@@ -13,6 +13,9 @@ const Home = (title, name) =>{
            {/* <Button color="primary" outline>
              Profile
            </Button> */}
+<>
+</>
+
          </Container>
        </Jumbotron>
      </div>

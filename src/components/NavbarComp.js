@@ -11,14 +11,18 @@ import {
     DropdownMenu,
     DropdownItem } from 'reactstrap';
 
-
+import { useState
+ } from 'react';
     const NavbarComp = () =>{
-     return (
+
+      const [toggle, setToggle] = useState(false);
+      const [isOpen, setIsOpen] = useState(true);
+
+      return (
      <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">reactstrap</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <NavbarToggler onClick={toggle} />
+          <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink href="/components/">Components</NavLink>
