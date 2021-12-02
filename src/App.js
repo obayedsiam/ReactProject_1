@@ -31,11 +31,20 @@ function App() {
       <Router>
         <Container>
           {/* <Header></Header> */}
+
           <Row>
-            <Col md={4}>
+            <Col md={2}></Col>
+            <Col md={10}>
+              <Header></Header>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col md={2}>
               <Menus />
             </Col>
-            <Col md={8}>
+            <Col md={10}>
+              {/* <Header></Header> */}
               <Route path="/" component={Home} exact />
               <Route path="/add-course" component={AddCourse} exact />
               <Route path="/view-course" component={Allcourses} exact />
