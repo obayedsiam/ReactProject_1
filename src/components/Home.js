@@ -1,5 +1,6 @@
 import React from 'react';
 import {Jumbotron, Container, Button} from 'reactstrap';
+import SingleProduct from "./Product/SingleProduct";
 import Header from "./Header";
 const Home = (title, name) =>{
    
@@ -10,6 +11,9 @@ const Home = (title, name) =>{
          <p>This is a website for Online Learning Platform</p> */}
 
          <Container>
+   
+           <SingleProduct/>
+      
            {/* <Button color="primary" outline>
              Profile
            </Button> */}
