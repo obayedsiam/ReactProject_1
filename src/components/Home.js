@@ -2,6 +2,7 @@ import React from 'react';
 import {Jumbotron, Container, Button} from 'reactstrap';
 import SingleProduct from "./Product/SingleProduct";
 import Header from "./Header";
+import "./Product/Product.css";
 const Home = (title, name) =>{
    
    return (
@@ -10,15 +11,15 @@ const Home = (title, name) =>{
          {/* <h1>Welcome to my Course</h1>
          <p>This is a website for Online Learning Platform</p> */}
 
-         <Container>
-   
-           <SingleProduct/>
+         <Container className='rowC'>
+           <SingleProduct  />
+           <SingleProduct  />
+           <SingleProduct  />
       
            {/* <Button color="primary" outline>
              Profile
            </Button> */}
-<>
-</>
+
 
          </Container>
        </Jumbotron>
