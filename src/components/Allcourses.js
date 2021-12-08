@@ -8,7 +8,21 @@ import { callApi, selectApi } from "../Reducers/apiSlice";
 import { ToastContainer, toast } from "react-toastify";
 //import { Button, Input, Container } from "reactstrap";
 import useListApi from "./useListApi";
-import { Input, Button } from "reactstrap";
+
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
 const Allcourses = (props) => {
   //const [courses, setCourses] = useState({ id: 0, title: "", description: "" });
@@ -100,10 +114,6 @@ const Allcourses = (props) => {
   return (
     <div>
       <ToastContainer />
-      <div>
-        <Input placeholder="Search" type="search"></Input>
-        <Button>Search</Button>
-      </div>
       {/* <h1>All Courses</h1>
       <p>List of courses are as follows</p> */}
       {data && data.length > 0
