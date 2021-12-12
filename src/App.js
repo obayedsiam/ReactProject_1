@@ -8,7 +8,7 @@ import AddCourse from "./components/AddCourse";
 import Header from "./components/Header";
 import Menus from "./components/Menus";
 import EditCourse from "./components/EditCourse";
-import Login from "./components/Login/Login";
+import Login from "./components/Login";
 //import ExampleHeader from "./components/ExampleHeader";
 //import CarouselEx from "./components/CarouselEx";
 //import { Card } from "reactstrap";

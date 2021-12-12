@@ -3,6 +3,7 @@ import { Jumbotron, Container, Button } from "reactstrap";
 import SingleProduct from "./Product/SingleProduct";
 import Header from "./Header";
 import "./Product/Product.css";
+import Login from "./Login";
 const Home = (title, name) => {
   return (
     <div>
@@ -19,6 +20,7 @@ const Home = (title, name) => {
              Profile
            </Button> */}
         </Container>
+        {/* <Login></Login> */}
       </Jumbotron>
     </div>
   );

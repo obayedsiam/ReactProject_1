@@ -11,8 +11,10 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 import Navbar from "./NavbarComp";
 import { useState } from "react";
+import Login from "./Login";
 
 const Header = (title, name) => {
   // const setToggle = ()=>{
@@ -65,7 +67,9 @@ const Header = (title, name) => {
             <Col md={3}>
               <Button>Search</Button>
               <Button>Cart</Button>
-              <Button>Sign in</Button>
+              <Link to={`/login`}>
+                <Button>Sign in</Button>
+              </Link>
             </Col>
           </Row>
         </CardBody>
