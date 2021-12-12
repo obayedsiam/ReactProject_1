@@ -1,15 +1,14 @@
 import { ToastContainer, toast } from "react-toastify";
 import { useState, useEffect, Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
-import { callApi } from "../Reducers/apiSlice";
+import { callApi, selectApi } from "../Reducers/apiSlice";
 import axios from "axios";
 import base_url from "../api/bootapi";
 import useListApi from "./useListApi";
 import "react-toastify/dist/ReactToastify.css";
 
 const EditCourse = (props) => {
-
   const dispatch = useDispatch();
   const [course, setCourse] = useState({ id: "", title: "", description: "" });
   //const [field, setField] = useState(false);
@@ -23,28 +22,27 @@ const EditCourse = (props) => {
     config: {
       operationId: `${base_url}/course/${props.match.params.id}`,
       output: "addedCourse",
-    }
+    },
   };
 
- // const data = "";
   const { data } = useListApi(tableProps.config);
-  //setCourse(data);
+  console.log(data, "printing data in edit Course");
 
   useEffect(() => {
-      document.title = "Update Course";   
-      getCourse(course);
-      console.log("use effect called course)", course);
+    document.title = "Update Course";
+    getCourse(course);
+    console.log("use effect called course)", course);
     //  console.log("printing data",course);
-  },[course]);
+  }, [course]);
 
   useEffect(() => {
-    document.title = "Update Course";   
+    document.title = "Update Course";
     getCourse(data);
     console.log("use effect called data", data);
-},[data]);
+  }, [data]);
 
- // console.log("printing data", data);
-//  console.log("printing course", course);
+  // console.log("printing data", data);
+  //  console.log("printing course", course);
 
   const getCourse = (value) => {
     setCourse(value);
@@ -56,7 +54,7 @@ const EditCourse = (props) => {
     //   //   method : "GET",
     //   //}
     // }))
-       
+
     //   setCourse(data);
     //   axios.get(`${base_url}/course/${props.match.params.id}`).then(
     //     (response) => {
@@ -71,12 +69,11 @@ const EditCourse = (props) => {
     //   );
   };
 
-
- // console.log(course, "reached after getcourse");
+  // console.log(course, "reached after getcourse");
   const courseUpdateHandler = (e) => {
-  //  setType(true);
-  //  setCourse({ ...course,});
-  //  toast.success("Course Added");
+    //  setType(true);
+    //  setCourse({ ...course,});
+    //  toast.success("Course Added");
     console.log(course, "Submitted");
     updateDatatoServer(course);
     e.preventDefault();
@@ -84,14 +81,16 @@ const EditCourse = (props) => {
 
   const updateDatatoServer = (data) => {
     console.log(course, "Submitted server");
-    dispatch(callApi({
-      operationId: `${base_url}/course/edit/${props.match.params.id}`,
-      output: "addedCourse",
-      parameters: {
-        method: "PUT",
-        body: JSON.stringify(data)
-      }
-    }))
+    dispatch(
+      callApi({
+        operationId: `${base_url}/course/edit/${props.match.params.id}`,
+        output: "addedCourse",
+        parameters: {
+          method: "PUT",
+          body: JSON.stringify(data),
+        },
+      })
+    );
     // axios
     //   .put(`${base_url}/course/${props.match.params.id}`, data)
     //   .then((response) => {
@@ -123,7 +122,6 @@ const EditCourse = (props) => {
           />
         </FormGroup>
 
-
         <FormGroup>
           <label htmlFor="title">Course title </label>
           <Input
@@ -131,7 +129,7 @@ const EditCourse = (props) => {
             placeholder={course.title}
             name="title"
             id="title"
-           value={course.title}
+            value={course.title}
             onChange={(e) => {
               setCourse({ ...course, title: e.target.value });
             }}
@@ -141,8 +139,8 @@ const EditCourse = (props) => {
           <label>Description</label>
           <Input
             type="textarea"
-           placeholder={course.description}
-           value={course.description}
+            placeholder={course.description}
+            value={course.description}
             id="description"
             onChange={(e) => {
               setCourse({ ...course, description: e.target.value });
@@ -152,13 +150,9 @@ const EditCourse = (props) => {
 
         <Container className="text-center my-3">
           <ToastContainer />
-          <Button type="submit">
-            Update Course
-          </Button>
-          
-          <Button type="reset"> 
-            Clear
-          </Button>
+          <Button type="submit">Update Course</Button>
+
+          <Button type="reset">Clear</Button>
         </Container>
       </Form>
     </Fragment>
