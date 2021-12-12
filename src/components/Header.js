@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardBody, Input, Button, Col, Row, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import Navbar from "./NavbarComp";
 import { useState } from "react";
+import Login from "./Login";
 
 const Header = (title, name) => {
 
@@ -48,7 +49,9 @@ const Header = (title, name) => {
       <Col md = {3}>
           <Button>Search</Button>
           <Button>Cart</Button>
-          <Button>Sign in</Button>
+          <Button onClick = {()=>{
+            return (<Login></Login>)
+          }}>Sign in</Button>
       </Col>
       </Row>
       </CardBody>

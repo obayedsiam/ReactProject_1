@@ -28,12 +28,10 @@ useEffect(() => {
         >
               
               <div  ><img src={watch} alt="Sample Image" height="130" /></div>
-              { (mouseEntry==true) ? 
-                 <Button className= "text-center hover-place"  >Add to Cart</Button>
-                  : 
+             
                   <div className= "text-center hover-place">
-                 $19.99
-               </div> }
+                  { (mouseEntry==true) ? "Add to Cart" : "$19.99" }
+               </div>
              
               <div>
                 <h4>Casio</h4>
