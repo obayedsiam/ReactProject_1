@@ -56,7 +56,11 @@ const Header = (title, name) => {
       </Dropdown> */}
             </Col>
             <Col md={7}>
-              <Input type="search" placeholder="Search"></Input>
+              <Input
+                type="search"
+                placeholder="Search"
+                className="lg-auto mb-3 mb-lg-0 me-lg-3"
+              ></Input>
             </Col>
             <Col md={3}>
               <Button>Search</Button>
