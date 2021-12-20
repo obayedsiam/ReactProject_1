@@ -16,6 +16,10 @@ import Navbar from "./NavbarComp";
 import { useState } from "react";
 import Login from "./Login";
 
+import { BsCartFill } from 'react-icons/bs';
+import { MdAccountCircle } from 'react-icons/md';
+
+
 const Header = (title, name) => {
   // const setToggle = ()=>{
   //   setIsOpen(!(dropdownOpen));
@@ -58,17 +62,20 @@ const Header = (title, name) => {
       </Dropdown> */}
             </Col>
             <Col md={7}>
+             <div className="rowC">
               <Input
                 type="search"
                 placeholder="Search"
                 className="lg-auto mb-3 mb-lg-0 me-lg-3"
               ></Input>
+               <Button>Search</Button>
+               </div>
             </Col>
             <Col md={3}>
-              <Button>Search</Button>
-              <Button>Cart</Button>
+              <BsCartFill size={32} ></BsCartFill>
               <Link to={`/login`}>
-                <Button>Sign in</Button>
+                {/* <Button>Sign in</Button> */}
+                <MdAccountCircle size={32}></MdAccountCircle>
               </Link>
             </Col>
           </Row>

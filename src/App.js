@@ -15,6 +15,8 @@ import Login from "./components/Login";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 //import ImageList from "./components/ImageList";
 //import MyAccount from "./components/MyAccount";
+import { Link } from "react-router-dom";
+
 
 function App() {
   const imgs = [
@@ -33,7 +35,14 @@ function App() {
           {/* <Header></Header> */}
 
           <Row>
-            <Col md={2}></Col>
+            <Col md={2} > 
+       
+            <Link to={`/`}>
+            <img src="e_shop_logo.jpg" alt="Sample Image" width = "100%" height="30%" padding-bottom = "10px"/>
+            </Link>
+          
+          
+            </Col>
             <Col md={10}>
               <Header></Header>
             </Col>

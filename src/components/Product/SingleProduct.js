@@ -31,7 +31,7 @@ useEffect(() => {
              
                   <div className= "text-center hover-place">
                   { (mouseEntry==true) ? "Add to Cart" : "$19.99" }
-               </div>
+                 </div>
              
               <div>
                 <h4>Casio</h4>
