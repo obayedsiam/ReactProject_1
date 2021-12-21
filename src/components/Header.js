@@ -66,13 +66,13 @@ const Header = (title, name) => {
               <Input
                 type="search"
                 placeholder="Search"
-                className="lg-auto mb-3 mb-lg-0 me-lg-3"
+               
               ></Input>
                <Button>Search</Button>
                </div>
             </Col>
             <Col md={3}>
-              <BsCartFill size={32} ></BsCartFill>
+            <BsCartFill size={50}  style={{ paddingRight: "20px"}} ></BsCartFill>
               <Link to={`/login`}>
                 {/* <Button>Sign in</Button> */}
                 <MdAccountCircle size={32}></MdAccountCircle>

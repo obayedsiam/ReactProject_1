@@ -38,7 +38,7 @@ function App() {
             <Col md={2} > 
        
             <Link to={`/`}>
-            <img src="e_shop_logo.jpg" alt="Sample Image" width = "100%" height="30%" padding-bottom = "10px"/>
+            <img src="e_shop_logo.jpg" alt="Sample Image" width = "100%" height="60%" style = {{paddingTop : "70px"}}/>
             </Link>
           
           
