@@ -27,3 +27,29 @@
   height: "50px";
   width: "200px";
 }
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: rgb(202, 27, 27);
+  color: rgb(218, 25, 25);
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: rgb(209, 14, 14);
+}

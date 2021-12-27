@@ -43,11 +43,11 @@ const Header = (title, name) => {
                 onChange={handleSelect}
                 style={{ height: "100%", width: "100%" }}
               >
-                <option value="Select">Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
+                <option value="All Category">All Category</option>
+                <option value="1">Electronic</option>
+                <option value="2">Fashion Item</option>
+                <option value="3">Shoe</option>
+                <option value="4">Cloth</option>
               </select>
               {/* <Dropdown isOpen={dropdownOpen} toggle={setToggle}   onClick={handleSelect}>
         <DropdownToggle caret>
