@@ -20,6 +20,25 @@ const Menus = () => {
       >
         Add Course
       </Link>
+
+      <Link
+        className="list-group-item list-group-item-action"
+        tag="a"
+        to="/add-file"
+        action="true"
+      >
+        Add File
+      </Link>
+
+      <Link
+        className="list-group-item list-group-item-action"
+        tag="a"
+        to="/search"
+        action="true"
+      >
+        Search
+      </Link>
+
       <Link
         className="list-group-item list-group-item-action"
         tag="a"

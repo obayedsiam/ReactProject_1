@@ -3,55 +3,51 @@ import { useState, useEffect, Fragment } from "react";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { callApi, selectApi } from "../Reducers/apiSlice";
-//import axios from "axios";
+import axios from "axios";
 import base_url from "../api/bootapi";
 import "react-toastify/dist/ReactToastify.css";
 //import { call } from "@redux-saga/core/effects";
 
-const AddCourse = () => {
-  const dispatch = useDispatch();
-  const { addedCourse } = useSelector(selectApi);
-
+const AddDetails = () => {
   useEffect(() => {
     document.title = "Add Course";
   }, []);
 
-  const [course, setCourse] = useState({});
+  const [details, setDetails] = useState({});
 
   const courseHandler = (e) => {
     //    toast.success("Course Added");
-    console.log(course, "Submitted");
-    postDatatoServer(course);
+    //  console.log(course, "Submitted");
+    //  postDatatoServer(course);
     e.preventDefault();
   };
 
   const postDatatoServer = (data) => {
     //  console.log(data, "Entered into post data to server function ");
-    dispatch(
-      callApi({
-        operationId: `${base_url}/course`,
-        output: "addedCourse",
-        parameters: {
-          header: {
-            //    "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-          method: "POST",
-        },
-      })
-    );
-
-    // axios
-    //   .post(`${base_url}/course`, data)
-    //   .then((response) => {
-    //     console.log(data, "Course input");
-    //     console.log(response, "Course Added");
-    //     toast.success("Course Added");
+    // dispatch(
+    //   callApi({
+    //     operationId: `${base_url}/course`,
+    //     output: "addedCourse",
+    //     parameters: {
+    //       header: {
+    //         //    "Access-Control-Allow-Origin": "*",
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(data),
+    //       method: "POST",
+    //     },
     //   })
-    //   .catch((error) => {
-    //     toast.error("Error occured");
-    //   });
+    // );
+    axios
+      .post(`${base_url}/course`, data)
+      .then((response) => {
+        console.log(data, "Course input");
+        console.log(response, "Course Added");
+        toast.success("Course Added");
+      })
+      .catch((error) => {
+        toast.error("Error occured");
+      });
   };
 
   return (
@@ -66,7 +62,7 @@ const AddCourse = () => {
             placeholder="Enter Id"
             id="UserId"
             onChange={(e) => {
-              setCourse({ ...course, id: e.target.value });
+              setDetails({ ...details, id: e.target.value });
               //  console.log(course, "Id changed");
             }}
           />
@@ -79,7 +75,7 @@ const AddCourse = () => {
             name="title"
             id="title"
             onChange={(e) => {
-              setCourse({ ...course, title: e.target.value });
+              setDetails({ ...details, title: e.target.value });
             }}
           />
         </FormGroup>
@@ -90,7 +86,7 @@ const AddCourse = () => {
             placeholder="Enter Description"
             id="description"
             onChange={(e) => {
-              setCourse({ ...course, description: e.target.value });
+              setDetails({ ...details, description: e.target.value });
             }}
           ></Input>
         </FormGroup>
@@ -98,11 +94,11 @@ const AddCourse = () => {
         <Container className="text-center my-3">
           <ToastContainer />
           <Button type="submit">
-          {/* //color="success"   */}
+            {/* //color="success"   */}
             Add Course
           </Button>
           <Button type="reset">
-          {/* color="warning ms-2"  */}
+            {/* color="warning ms-2"  */}
             Clear
           </Button>
         </Container>
@@ -111,4 +107,4 @@ const AddCourse = () => {
   );
 };
 
-export default AddCourse;
+export default AddDetails;
