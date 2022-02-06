@@ -6,27 +6,23 @@ import { callApi, selectApi } from "../Reducers/apiSlice";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import base_url from "../api/bootapi";
-import useListApi from "./useListApi";
+
 import "react-toastify/dist/ReactToastify.css";
 
 const TvDetails = (props) => {
   console.log(props, "pppp");
 
-  const dispatch = useDispatch();
   const [details, setDetails] = useState({
     id: "",
     serialNumber: "",
     date: "",
-    phoneNumber: "",
+    mobileNumber: "",
     callStatus: "",
   });
 
+  const [data, setData] = useState({});
+
   const tableProps = {
-    // headers: [
-    //   { id: "id", label: "#" },
-    //   { id: "title", label: "title" },
-    //   { id: "description", label: "description" },
-    // ],
     config: {
       operationId: `${base_url}/course/${props.match.params.id}`,
       output: "addedCourse",
@@ -42,9 +38,44 @@ const TvDetails = (props) => {
 
   useEffect(() => {
     document.title = "Update Course";
-    //  getCourse(data);
-    //  console.log("use effect called data", data);
+    getALLDetails();
+
+    setDetails({
+      ...details,
+      id: props.match.params.id,
+      serialNumber: props.match.params.serial,
+      date: props.match.params.date,
+      mobileNumber: props.match.params.mobile,
+      callStatus: props.match.params.call,
+    });
+
+    setData({
+      ...data,
+      id: data.id,
+      serialNumber: data.serialNumber,
+      date: data.date,
+      mobileNumber: data.mobileNumber,
+      callStatus: data.callStatus,
+    });
   }, []);
+
+  const getALLDetails = () => {
+    axios.get(`${base_url}/getList/id/${props.match.params.id}`).then(
+      (response) => {
+        console.log(response.data, "Successfull");
+        setData(response.data);
+        // {
+        //   response.data.length > 0
+        //     ? toast.success("Data Loaded !!")
+        //     : toast.success("No Data Found");
+        // }
+      },
+      (error) => {
+        console.log(error, "Found error from your code");
+        toast.error("Couldn't load Data");
+      }
+    );
+  };
 
   // console.log("printing data", data);
   //  console.log("printing course", course);
@@ -105,7 +136,7 @@ const TvDetails = (props) => {
             type="text"
             name="serialNumber"
             placeholder={props.match.params.serial}
-            value={details.serialNumber}
+            value={data.serialNumber}
             id="serialNumber"
             onChange={(e) => {
               setDetails({ ...details, serialNumber: e.target.value });

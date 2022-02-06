@@ -31,6 +31,7 @@ const Search = (props) => {
   }, []);
 
   const exportFile = () => {
+    console.log("printing data", data);
     axios({
       url: `${base_url}/users/export/excel`, //your url
       method: "GET",
@@ -239,9 +240,12 @@ const Search = (props) => {
                 <td>{item.date}</td>
                 <td>{item.callStatus}</td>
                 <td>
-                  <Link
+                  {/* <Link
                     to={`/Edit/${item.serialNumber}/${item.mobileNumber}/${item.date}/${item.callStatus}/${item.id}`}
                   >
+                    <button type="button">Edit</button>
+                  </Link> */}
+                  <Link to={`/Edit/${item}`}>
                     <button type="button">Edit</button>
                   </Link>
                 </td>

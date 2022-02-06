@@ -60,11 +60,7 @@ function App() {
               <Route path="/add-course" component={AddCourse} exact />
               <Route path="/add-file" component={AddFile} exact />
               <Route path="/search" component={Search} exact />
-              <Route
-                path="/edit/:serial/:mobile/:date/:call/:id"
-                component={TvDetails}
-                exact
-              />
+              <Route path="/edit/:id" component={TvDetails} exact />
             </Col>
           </Row>
         </Container>
