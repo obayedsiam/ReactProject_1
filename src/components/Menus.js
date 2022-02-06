@@ -4,30 +4,49 @@ import { Link } from "react-router-dom";
 const Menus = () => {
   return (
     <ListGroup>
-      <Link
+      {/* <Link
         className="list-group-item list-group-item-action"
         tag="a"
         to="/"
         action="true"
       >
         Home
-      </Link>
+      </Link> */}
       <Link
         className="list-group-item list-group-item-action"
         tag="a"
-        to="/add-course"
+        to="/add-customer"
         action="true"
       >
-        Add Course
+        Add Single Customer
       </Link>
+
       <Link
+        className="list-group-item list-group-item-action"
+        tag="a"
+        to="/add-file"
+        action="true"
+      >
+        Add Customer Detail File
+      </Link>
+
+      <Link
+        className="list-group-item list-group-item-action"
+        tag="a"
+        to="/search"
+        action="true"
+      >
+        Search and Export Customer Data
+      </Link>
+
+      {/* <Link
         className="list-group-item list-group-item-action"
         tag="a"
         to="/view-course"
         action="true"
       >
         View Course
-      </Link>
+      </Link> 
       <Link
         className="list-group-item list-group-item-action"
         tag="a"
@@ -53,6 +72,7 @@ const Menus = () => {
       >
         Login
       </Link>
+      */}
     </ListGroup>
   );
 };

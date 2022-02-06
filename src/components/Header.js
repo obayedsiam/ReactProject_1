@@ -49,22 +49,23 @@ const Header = (title, name) => {
                 <option value="4">Cloth</option>
               </select>
             </Col>
-            <Col md={8}>
+            <Col md={4}>
               <div className="rowC">
                 <Input type="search" placeholder="Search"></Input>
-                <Button>Search</Button>
               </div>
             </Col>
             <Col md={2}>
-              <div className="rowC">
-                <BsCartFill
-                  size={40}
-                  style={{ paddingRight: "5px" }}
-                ></BsCartFill>{" "}
-                <Link to={`/login`}>
-                  <MdAccountCircle size={32}></MdAccountCircle>
-                </Link>
-              </div>
+              <Button style={{ paddingRight: "5px" }}>Search</Button>
+            </Col>
+            <Col md={2}>
+              <BsCartFill
+                size={50}
+                style={{ paddingRight: "20px" }}
+              ></BsCartFill>
+              <Link to={`/login`}>
+                {/* <Button>Sign in</Button> */}
+                <MdAccountCircle size={32}></MdAccountCircle>
+              </Link>
             </Col>
           </Row>
         </CardBody>

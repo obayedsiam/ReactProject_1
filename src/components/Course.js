@@ -18,7 +18,7 @@ import {
 
 import { ToastContainer, toast } from "react-toastify";
 
-const Course = ({ course, update }) => {
+const Courses = ({ course, update }) => {
   const dispatch = useDispatch();
 
   const [deleted, setDeleted] = useState("False");
@@ -78,4 +78,4 @@ const Course = ({ course, update }) => {
   );
 };
 
-export default Course;
+export default Courses;

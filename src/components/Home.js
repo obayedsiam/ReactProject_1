@@ -12,9 +12,9 @@ const Home = (title, name) => {
          <p>This is a website for Online Learning Platform</p> */}
 
         <Container className="rowC">
+          {/* <SingleProduct />
           <SingleProduct />
-          <SingleProduct />
-          <SingleProduct />
+          <SingleProduct /> */}
 
           {/* <Button color="primary" outline>
              Profile
