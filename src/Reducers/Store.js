@@ -1,7 +1,7 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagasMiddleware from "redux-saga";
 import ApiReducer from "./apiSlice";
-import Sagas from "../sagas/index";
+import Sagas from "../Sagas/index";
 
 const sagaMiddleware = createSagasMiddleware();
 

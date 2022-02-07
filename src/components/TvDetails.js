@@ -74,29 +74,6 @@ const TvDetails = (props) => {
   // console.log("printing data", data);
   //  console.log("printing course", course);
 
-  const getCourse = (value) => {
-    // setCourse(value);
-    // dispatch(callApi({
-    //   operationId : `${base_url}/course/${props.match.params.id}`,
-    //   output: "courseList",
-    //   // parameters: {
-    //   //   method : "GET",
-    //   //}
-    // }))
-    //   setCourse(data);
-    //   axios.get(`${base_url}/course/${props.match.params.id}`).then(
-    //     (response) => {
-    //       console.log(response.data, "Successfull");
-    //       setCourse(response.data);
-    //       //   toast.success("Course Loaded !!");
-    //     },
-    //     (error) => {
-    //       console.log(error, "Found error from your code");
-    //       toast.error("Couldn't load Data");
-    //     }
-    //   );
-  };
-
   // console.log(course, "reached after getcourse");
   const courseUpdateHandler = (e) => {
     //  setType(true);
@@ -109,7 +86,7 @@ const TvDetails = (props) => {
 
   const updateDatatoServer = () => {
     axios
-      .put(`${base_url}/TvDetails/edit/${props.match.params.id}`, details)
+      .put(`${base_url}/TvDetails/edit/${props.match.params.id}`, data)
       .then((response) => {
         console.log(response);
         console.log(response, " updated");
@@ -130,10 +107,10 @@ const TvDetails = (props) => {
             type="text"
             name="serialNumber"
             placeholder={data.serialNumber}
-            value={details.serialNumber}
+            value={data.serialNumber}
             id="serialNumber"
             onChange={(e) => {
-              setDetails({ ...details, serialNumber: e.target.value });
+              setData({ ...data, serialNumber: e.target.value });
               //  console.log(course, "Id changed");
             }}
           />
@@ -146,9 +123,9 @@ const TvDetails = (props) => {
             placeholder={data.mobileNumber}
             name="mobileNumber"
             id="mobile"
-            value={details.mobileNumber}
+            value={data.mobileNumber}
             onChange={(e) => {
-              setDetails({ ...details, mobileNumber: e.target.value });
+              setData({ ...data, mobileNumber: e.target.value });
             }}
           />
         </FormGroup>
@@ -156,11 +133,11 @@ const TvDetails = (props) => {
           <label>Call Status</label>
           <Input
             type="text"
-            placeholder={details.callStatus}
+            placeholder={data.callStatus}
             value={data.callStatus}
             id="description"
             onChange={(e) => {
-              setDetails({ ...details, callStatus: e.target.value });
+              setData({ ...data, callStatus: e.target.value });
             }}
           ></Input>
         </FormGroup>
@@ -170,10 +147,10 @@ const TvDetails = (props) => {
           <Input
             type="date"
             placeholder={Date.parse(data.date)}
-            value={details.date}
+            value={data.date}
             id="description"
             onChange={(e) => {
-              setDetails({ ...details, date: e.target.value });
+              setData({ ...data, date: e.target.value });
             }}
           ></Input>
         </FormGroup>
