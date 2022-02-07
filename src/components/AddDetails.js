@@ -36,13 +36,15 @@ const AddDetails = () => {
   return (
     <Fragment>
       {/* <h1 className="text-center my=3">Fill up the form </h1> */}
+
       <Form onSubmit={postDatatoServer}>
+        <label>ADD NEW CUSTOMER</label>
         <FormGroup>
           <label htmlFor="Serial">Serial Number</label>
           <Input
             type="text"
             name="serial"
-            placeholder={details.serial}
+            placeholder="Serial Number"
             id="serial"
             onChange={(e) => {
               setDetails({ ...details, serial: e.target.value });

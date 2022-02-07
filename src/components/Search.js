@@ -78,7 +78,7 @@ const Search = (props) => {
   };
 
   const getALLDetails = () => {
-    axios.get(`${base_url}/customer`).then(
+    axios.get(`${base_url}/TvDetails`).then(
       (response) => {
         console.log(response.data, "Successfull");
         setData(response.data);
