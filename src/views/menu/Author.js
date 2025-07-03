@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   CCard,
   CCardBody,
@@ -13,44 +13,43 @@ import {
   CButton,
   CPagination,
   CPaginationItem,
-} from '@coreui/react'
+} from '@coreui/react';
+import AuthorAPI from '../menu/AuthorApi';
 
 const Author = () => {
-  const [authors, setAuthors] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(5)
+  const [authors, setAuthors] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(0); // Backend page starts from 0
+  const [pageSize] = useState(5);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    // Dummy data for now
-    setAuthors([
-      { id: 1, name: 'J.K. Rowling', details: 'Author of Harry Potter' },
-      { id: 2, name: 'George R.R. Martin', details: 'Author of Game of Thrones' },
-      { id: 3, name: 'J.R.R. Tolkien', details: 'Author of The Lord of the Rings' },
-      { id: 4, name: 'Dan Brown', details: 'Author of The Da Vinci Code' },
-      { id: 5, name: 'Agatha Christie', details: 'Famous mystery novelist' },
-      { id: 6, name: 'Paulo Coelho', details: 'Author of The Alchemist' },
-    ])
-  }, [])
+    fetchAuthors();
+  }, [currentPage, searchTerm]);
 
-  const filteredAuthors = authors.filter((author) =>
-    author.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
-  const totalPages = Math.ceil(filteredAuthors.length / pageSize)
-  const displayedAuthors = filteredAuthors.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+  const fetchAuthors = () => {
+    AuthorAPI.getAuthors(currentPage, pageSize, "id", "asc", searchTerm)
+      .then((response) => {
+        setAuthors(response.data.data);
+        setTotalPages(response.data.totalPages);
+      })
+      .catch((error) => {
+        console.error("Error fetching authors:", error);
+      });
+  };
 
   const handleEdit = (id) => {
-    console.log('Edit author:', id)
-  }
+    console.log("Edit author:", id);
+    // You can fetch details using getAuthorById(id)
+  };
 
   const handleDelete = (id) => {
-    console.log('Delete author:', id)
-  }
+    console.log("Delete author:", id);
+  };
 
   const handleAddNew = () => {
-    console.log('Add new author')
-  }
+    console.log("Add new author");
+  };
 
   return (
     <CCard className="mb-4">
@@ -61,7 +60,10 @@ const Author = () => {
             size="sm"
             placeholder="Search..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(0); // Reset to first page on search
+            }}
             style={{ width: '200px' }}
           />
           <CButton size="sm" color="primary" onClick={handleAddNew}>
@@ -80,7 +82,7 @@ const Author = () => {
             </CTableRow>
           </CTableHead>
           <CTableBody>
-            {displayedAuthors.map((author) => (
+            {authors.map((author) => (
               <CTableRow key={author.id}>
                 <CTableDataCell>{author.id}</CTableDataCell>
                 <CTableDataCell>{author.name}</CTableDataCell>
@@ -104,8 +106,8 @@ const Author = () => {
             {[...Array(totalPages)].map((_, index) => (
               <CPaginationItem
                 key={index}
-                active={index + 1 === currentPage}
-                onClick={() => setCurrentPage(index + 1)}
+                active={index === currentPage}
+                onClick={() => setCurrentPage(index)}
               >
                 {index + 1}
               </CPaginationItem>
@@ -114,7 +116,7 @@ const Author = () => {
         </div>
       </CCardBody>
     </CCard>
-  )
-}
+  );
+};
 
-export default Author
+export default Author;
