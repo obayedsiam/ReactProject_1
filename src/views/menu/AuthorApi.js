@@ -24,9 +24,13 @@ const AuthorAPI = {
     return axios.post(`${API_URL}/add`, authorData);
   },
 
-  updateAuthor: (authorId, authorData) => {
-    return axios.put(`${API_URL}/update/${authorId}`, authorData);
-  },
+updateAuthor: (authorData) => {
+  return axios.put(`${API_URL}/update`, authorData, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+},
 
 };
 
