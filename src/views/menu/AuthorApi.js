@@ -21,7 +21,7 @@ const AuthorAPI = {
   },
 
   addAuthor: (authorData) => {
-    return axios.post(`${API_URL}/add`, authorData);
+    return axios.post(`${API_URL}/save`, authorData);
   },
 
 updateAuthor: (authorData) => {
@@ -30,6 +30,9 @@ updateAuthor: (authorData) => {
       'Content-Type': 'application/json'
     }
   });
+},
+deleteAuthor: (id) => {
+  return axios.delete(`${API_URL}/delete/${id}`);
 },
 
 };

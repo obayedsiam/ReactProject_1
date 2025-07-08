@@ -1,0 +1,15 @@
+.toast-slide-in {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.toast-slide-in.toast-show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast-slide-in.toast-hide {
+  transform: translateX(100%);
+  opacity: 0;
+}
