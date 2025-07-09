@@ -54,18 +54,18 @@ const Author = () => {
     fetchAuthors();
   }, [currentPage, searchTerm, sortCriteria, sortOrder, pageSize]);
 
-const fetchAuthors = () => {
-  AuthorAPI.getAuthors(currentPage - 1, pageSize, sortCriteria || 'id', sortOrder, searchTerm)
-    .then((response) => {
-      const result = response.data;
-      setAuthors(result.data);
-      setTotalPages(result.totalPages); // <-- THIS IS THE FIX
-    })
-    .catch((error) => {
-      console.error('Error fetching authors:', error);
-      showToast('Failed to fetch authors', 'danger');
-    });
-};
+  const fetchAuthors = () => {
+    AuthorAPI.getAuthors(currentPage - 1, pageSize, sortCriteria || 'id', sortOrder, searchTerm)
+      .then((response) => {
+        const result = response.data;
+        setAuthors(result.data);
+        setTotalPages(result.totalPages); // <-- THIS IS THE FIX
+      })
+      .catch((error) => {
+        console.error('Error fetching authors:', error);
+        showToast('Failed to fetch authors', 'danger');
+      });
+  };
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -158,7 +158,7 @@ const fetchAuthors = () => {
                       <div className="d-flex justify-content-end flex-wrap gap-2">
                         <CButton color="primary" size="sm" onClick={() => handleDelete(author.id)} style={{ minWidth: '60px' }}>Book List</CButton>
                         <CButton color="secondary" size="sm" onClick={() => handleDetails(author.id)} style={{ minWidth: '60px' }}>Details</CButton>
-                             <CButton color="info" size="sm" onClick={() => handleEdit(author)} style={{ minWidth: '60px' }}>Edit</CButton>
+                        <CButton color="info" size="sm" onClick={() => handleEdit(author)} style={{ minWidth: '60px' }}>Edit</CButton>
                         <CButton color="danger" size="sm" onClick={() => handleDelete(author.id)} style={{ minWidth: '60px' }}>Delete</CButton>
                       </div>
                     </CTableDataCell>
@@ -167,56 +167,56 @@ const fetchAuthors = () => {
               </CTableBody>
             </CTable>
 
-          {totalPages > 1 && (
-  <div className="d-flex justify-content-center mt-3 flex-wrap gap-1">
-    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-      <CButton
-        key={page}
-        color={page === currentPage ? 'primary' : 'secondary'}
-        size="sm"
-        style={{ minWidth: '36px' }}
-        onClick={() => setCurrentPage(page)}
-      >
-        {page}
-      </CButton>
-    ))}
-  </div>
-)}
+            {totalPages > 1 && (
+              <div className="d-flex justify-content-center mt-3 flex-wrap gap-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <CButton
+                    key={page}
+                    color={page === currentPage ? 'primary' : 'secondary'}
+                    size="sm"
+                    style={{ minWidth: '36px' }}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </CButton>
+                ))}
+              </div>
+            )}
           </CCardBody>
         </CCard>
       </CCol>
 
       {/* Add/Edit Modal */}
-     <CModal visible={visible} onClose={() => setVisible(false)}>
-  <CModalHeader>
-    <CModalTitle>{editAuthor ? 'Edit Author' : 'Add New Author'}</CModalTitle>
-  </CModalHeader>
-  <CForm
-    onSubmit={(e) => {
-      e.preventDefault();  // Prevent page reload
-      handleUpdate();      // Call your save function
-    }}
-  >
-    <CModalBody>
-      <CFormInput
-        label="Author Name"
-        name="name"
-        value={formData.name}
-        onChange={handleInputChange}
-        className="mb-3"
-        autoFocus
-      />
-    </CModalBody>
-    <CModalFooter>
-      <CButton color="secondary" onClick={() => setVisible(false)}>
-        Cancel
-      </CButton>
-      <CButton color="primary" type="submit">  {/* Submit type */}
-        Save
-      </CButton>
-    </CModalFooter>
-  </CForm>
-</CModal>
+      <CModal visible={visible} onClose={() => setVisible(false)}>
+        <CModalHeader>
+          <CModalTitle>{editAuthor ? 'Edit Author' : 'Add New Author'}</CModalTitle>
+        </CModalHeader>
+        <CForm
+          onSubmit={(e) => {
+            e.preventDefault();  // Prevent page reload
+            handleUpdate();      // Call your save function
+          }}
+        >
+          <CModalBody>
+            <CFormInput
+              label="Author Name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className="mb-3"
+              autoFocus
+            />
+          </CModalBody>
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setVisible(false)}>
+              Cancel
+            </CButton>
+            <CButton color="primary" type="submit">  {/* Submit type */}
+              Save
+            </CButton>
+          </CModalFooter>
+        </CForm>
+      </CModal>
 
       {/* Confirm Delete Modal */}
       <CModal visible={confirmDeleteVisible} onClose={() => setConfirmDeleteVisible(false)}>
