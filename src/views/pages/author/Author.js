@@ -1,25 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
-  CCard,
-  CCardBody,
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableBody,
-  CTableDataCell,
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CModalFooter,
-  CButton,
-  CForm,
-  CFormInput,
-  CToast,
-  CToastHeader,
-  CToastBody,
-  CToaster,
+  CCard, CCardBody, CTable, CTableHead, CTableRow, CTableHeaderCell,
+  CTableBody, CTableDataCell, CModal, CModalHeader, CModalTitle,
+  CModalBody, CModalFooter, CButton, CForm, CFormInput
 } from '@coreui/react';
 
 import ListHeader from '../../../components/header/ListHeader';
@@ -31,21 +14,6 @@ const Author = () => {
   const [editAuthor, setEditAuthor] = useState(null);
   const [formData, setFormData] = useState({ name: '' });
 
-  const [toast, setToast] = useState(null);
-  const toasterRef = useRef();
-
-  const showToast = (message, color = 'primary') => {
-    const toast = (
-      <CToast autohide={true} delay={3000} color={color} key={Date.now()}>
-        <CToastHeader closeButton>
-          <strong className="me-auto">Notification</strong>
-        </CToastHeader>
-        <CToastBody>{message}</CToastBody>
-      </CToast>
-    );
-    setToast(toast);
-  };
-
   const {
     data: authors,
     searchTerm, setSearchTerm,
@@ -54,7 +22,7 @@ const Author = () => {
     currentPage, setCurrentPage,
     pageSize, setPageSize,
     totalPages,
-    refetch,
+    refetch
   } = usePaginatedList(AuthorAPI.getAuthors);
 
   const handleAddNew = () => {
@@ -71,12 +39,7 @@ const Author = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Delete this author?')) {
-      AuthorAPI.deleteAuthor(id)
-        .then(() => {
-          refetch();
-          showToast('Author deleted successfully', 'success');
-        })
-        .catch(() => showToast('Failed to delete author', 'danger'));
+      AuthorAPI.deleteAuthor(id).then(() => refetch());
     }
   };
 
@@ -85,13 +48,10 @@ const Author = () => {
     if (editAuthor) payload.id = editAuthor.id;
 
     const action = editAuthor ? AuthorAPI.updateAuthor : AuthorAPI.addAuthor;
-    action(payload)
-      .then(() => {
-        refetch();
-        setModalVisible(false);
-        showToast(`Author ${editAuthor ? 'updated' : 'added'} successfully`, 'success');
-      })
-      .catch(() => showToast(`Failed to ${editAuthor ? 'update' : 'add'} author`, 'danger'));
+    action(payload).then(() => {
+      refetch();
+      setModalVisible(false);
+    });
   };
 
   return (
@@ -110,6 +70,7 @@ const Author = () => {
         sortOptions={[{ label: 'Name', value: 'name' }]}
       />
 
+      {/* Table */}
       <CCard className="mt-3">
         <CCardBody>
           <CTable striped responsive>
@@ -132,6 +93,7 @@ const Author = () => {
             </CTableBody>
           </CTable>
 
+          {/* Pagination */}
           {totalPages > 1 && (
             <div className="d-flex justify-content-center mt-3 gap-2 flex-wrap">
               {Array.from({ length: totalPages }, (_, i) => (
@@ -149,6 +111,7 @@ const Author = () => {
         </CCardBody>
       </CCard>
 
+      {/* Add/Edit Modal */}
       <CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
         <CModalHeader>
           <CModalTitle>{editAuthor ? 'Edit Author' : 'Add New Author'}</CModalTitle>
@@ -169,9 +132,6 @@ const Author = () => {
           </CModalFooter>
         </CForm>
       </CModal>
-
-      {/* Single Toast Toaster */}
-      <CToaster ref={toasterRef} push={toast} placement="top-end" />
     </>
   );
 };
