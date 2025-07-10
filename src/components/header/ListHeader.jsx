@@ -65,14 +65,17 @@ const ListHeader = ({
             size="sm"
             value={pageSize}
             onChange={(e) => {
-              setPageSize(Number(e.target.value));
+              const value = e.target.value
+              setPageSize(value === 'all' ? 'all' : parseInt(value))
+              setCurrentPage(1)
             }}
-            style={{ minWidth: '80px' }}
+            style={{ minWidth: '80px', whiteSpace: 'nowrap' }}
           >
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="50">50</option>
+            <option value="all">All</option>
           </CFormSelect>
         )}
 

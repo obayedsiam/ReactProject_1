@@ -35,6 +35,12 @@ deleteAuthor: (id) => {
   return axios.delete(`${API_URL}/delete/${id}`);
 },
 
+getAllAuthors: (search = '') => {
+  return axios.get(`${API_URL}/all`, {
+    params: { search }
+  })
+}
+
 };
 
 export default AuthorAPI;

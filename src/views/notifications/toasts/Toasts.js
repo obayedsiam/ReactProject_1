@@ -22,7 +22,7 @@ import {
   CToaster,
 } from '@coreui/react';
 
-import ListHeader from '../../../components/header/ListHeader';
+import ListHeader from '../../../components/headers/ListHeader';
 import usePaginatedList from '../../../hooks/usePaginatedList';
 import AuthorAPI from '../../../api/AuthorAPI';
 

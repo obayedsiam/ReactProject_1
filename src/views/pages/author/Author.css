@@ -1,0 +1,16 @@
+.scrollable-table-container {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.scrollable-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.scrollable-table-container thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa; /* Adjust to match your theme */
+  z-index: 1;
+}
