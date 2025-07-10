@@ -2,10 +2,7 @@ import React from 'react'
 
 
 const Books = React.lazy(() => import('./views/menu/Books'))
-// const Author = React.lazy(() => import('./views/menu/Author'))
 const Author = React.lazy(() => import('./views/pages/author/Author'))
-// const PostPage = React.lazy(() => import('./views/pages/blog/PostPage'))
-// const BlogPage = React.lazy(() => import('./views/pages/blog/BlogPage'))
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -60,10 +57,10 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: 'menu/users', name: 'Users', element: Colors, exact: true },
-  { path: 'menu/books', name: 'Books', element: Books, exact: true },
-  { path: 'menu/author', name: 'Author', element: Author, exact: true },
-  // { path: 'menu/post', name: 'PostPage', element: BlogPage, exact: true },
+  { path: '/menu/users', name: 'Users', element: Colors, exact: true },
+  { path: '/menu/books', name: 'Books', element: Books, exact: true },
+  { path: '/menu/author', name: 'Author', element: Author, exact: true },
+
   
   
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
