@@ -5,21 +5,21 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import ListHeader from '../../../components/header/ListHeader'
 import usePaginatedList from '../../../hooks/usePaginatedList'
-import AuthorAPI from '../../../api/AuthorAPI'
+import BookAPI from '../../../api/BookAPI'
 import ConfirmModal from '../../../components/modals/ConfirmModal'
-import AuthorFormModal from '../../../components/modals/AuthorFormModal'
+import BookFormModal from '../../../components/modals/BookFormModal'
 import EntityTable from '../../../components/tables/EntityTable'
 import PaginationControls from '../../../components/tables/PaginationControls'
 import useToast from '../../../hooks/useToast'
 
-import './Author.css' // 🔸 import the custom scroll CSS
+import './Book.css' // 🔸 import the custom scroll CSS
 
-const Author = () => {
+const Book = () => {
   const [modalVisible, setModalVisible] = useState(false)
-  const [editAuthor, setEditAuthor] = useState(null)
+  const [editBook, setEditBook] = useState(null)
   const [formData, setFormData] = useState({ name: '' })
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
-  const [authorToDelete, setAuthorToDelete] = useState(null)
+  const [BookToDelete, setBookToDelete] = useState(null)
 
   const showToast = useToast()
 
@@ -33,7 +33,7 @@ const Author = () => {
   }, [])
 
   const {
-    data: authors,
+    data: Books,
     searchTerm, setSearchTerm,
     sortCriteria, setSortCriteria,
     sortOrder, setSortOrder,
@@ -41,45 +41,45 @@ const Author = () => {
     pageSize, setPageSize,
     totalPages,
     refetch
-  } = usePaginatedList(AuthorAPI.getAuthors, AuthorAPI.getAllAuthors)
+  } = usePaginatedList(BookAPI.getBooks, BookAPI.getAllBooks)
 
   const handleAddNew = () => {
-    setEditAuthor(null)
+    setEditBook(null)
     setFormData({ name: '' })
     setModalVisible(true)
   }
 
-  const handleEdit = (author) => {
-    setEditAuthor(author)
-    setFormData({ name: author.name })
+  const handleEdit = (book) => {
+    setEditBook(book)
+    setFormData({ name: book.name })
     setModalVisible(true)
   }
 
   const handleDelete = (id) => {
-    setAuthorToDelete(id)
+    setBookToDelete(id)
     setConfirmDeleteVisible(true)
   }
 
   const handleSave = () => {
     const payload = { ...formData }
-    if (editAuthor) payload.id = editAuthor.id
+    if (editBook) payload.id = editBook.id
 
-    const action = editAuthor ? AuthorAPI.updateAuthor : AuthorAPI.addAuthor
+    const action = editBook ? BookAPI.updateBook : BookAPI.addBook
     action(payload)
       .then(() => {
         refetch()
         setModalVisible(false)
-        showToast(`Author ${editAuthor ? 'updated' : 'added'} successfully`, 'success')
+        showToast(`Book ${editBook ? 'updated' : 'added'} successfully`, 'success')
       })
       .catch(() => {
-        showToast(`Failed to ${editAuthor ? 'update' : 'add'} author`, 'error')
+        showToast(`Failed to ${editBook ? 'update' : 'add'} book`, 'error')
       })
   }
 
   return (
     <>
       <ListHeader
-        title="Author List"
+        title="Book List"
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         sortCriteria={sortCriteria}
@@ -96,7 +96,7 @@ const Author = () => {
         <CCardBody style={{ padding: 0 }}>
           <div className="scrollable-table-container">
             <EntityTable
-              items={authors}
+              items={Books}
               onEdit={handleEdit}
               onDelete={handleDelete}
               onDetails={(id) => console.log('Details', id)}
@@ -111,10 +111,10 @@ const Author = () => {
           />
         </CCardBody>
       </CCard>
-      <AuthorFormModal
+      <BookFormModal
         visible={modalVisible}
         setVisible={setModalVisible}
-        isEdit={!!editAuthor}
+        isEdit={!!editBook}
         formData={formData}
         setFormData={setFormData}
         onSubmit={handleSave}
@@ -124,15 +124,15 @@ const Author = () => {
         visible={confirmDeleteVisible}
         setVisible={setConfirmDeleteVisible}
         title="Confirm Delete"
-        message="Are you sure you want to delete this author?"
+        message="Are you sure you want to delete this book?"
         onConfirm={() => {
-          AuthorAPI.deleteAuthor(authorToDelete)
+          BookAPI.deleteBook(BookToDelete)
             .then(() => {
               refetch()
-              showToast('Author deleted successfully', 'success')
+              showToast('Book deleted successfully', 'success')
             })
             .catch(() => {
-              showToast('Failed to delete author', 'error')
+              showToast('Failed to delete book', 'error')
             })
         }}
         confirmText="Delete"
@@ -143,4 +143,4 @@ const Author = () => {
   )
 }
 
-export default Author
+export default Book

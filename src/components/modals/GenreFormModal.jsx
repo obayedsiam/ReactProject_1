@@ -4,15 +4,15 @@ import {
   CModalBody, CModalFooter, CButton, CForm, CFormInput
 } from '@coreui/react'
 
-const EntityFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onSubmit }) => (
+const GenreFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onSubmit }) => (
   <CModal visible={visible} onClose={() => setVisible(false)}>
     <CModalHeader>
-      <CModalTitle>{isEdit ? 'Edit Author' : 'Add New Author'}</CModalTitle>
+      <CModalTitle>{isEdit ? 'Edit Genre' : 'Add New Genre'}</CModalTitle>
     </CModalHeader>
     <CForm onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
       <CModalBody>
         <CFormInput
-          label="Author Name"
+          label="Genre Name"
           name="name"
           value={formData.name}
           onChange={(e) => setFormData({ name: e.target.value })}
@@ -27,4 +27,4 @@ const EntityFormModal = ({ visible, setVisible, isEdit, formData, setFormData, o
   </CModal>
 )
 
-export default EntityFormModal
+export default GenreFormModal

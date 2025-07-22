@@ -5,21 +5,21 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import ListHeader from '../../../components/header/ListHeader'
 import usePaginatedList from '../../../hooks/usePaginatedList'
-import AuthorAPI from '../../../api/AuthorAPI'
+import GenreAPI from '../../../api/GenreAPI'
 import ConfirmModal from '../../../components/modals/ConfirmModal'
-import AuthorFormModal from '../../../components/modals/AuthorFormModal'
+import GenreFormModal from '../../../components/modals/GenreFormModal'
 import EntityTable from '../../../components/tables/EntityTable'
 import PaginationControls from '../../../components/tables/PaginationControls'
 import useToast from '../../../hooks/useToast'
 
-import './Author.css' // 🔸 import the custom scroll CSS
+import './Genre.css' // 🔸 import the custom scroll CSS
 
-const Author = () => {
+const Genre = () => {
   const [modalVisible, setModalVisible] = useState(false)
-  const [editAuthor, setEditAuthor] = useState(null)
+  const [editGenre, setEditGenre] = useState(null)
   const [formData, setFormData] = useState({ name: '' })
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
-  const [authorToDelete, setAuthorToDelete] = useState(null)
+  const [GenreToDelete, setGenreToDelete] = useState(null)
 
   const showToast = useToast()
 
@@ -33,7 +33,7 @@ const Author = () => {
   }, [])
 
   const {
-    data: authors,
+    data: Genres,
     searchTerm, setSearchTerm,
     sortCriteria, setSortCriteria,
     sortOrder, setSortOrder,
@@ -41,45 +41,45 @@ const Author = () => {
     pageSize, setPageSize,
     totalPages,
     refetch
-  } = usePaginatedList(AuthorAPI.getAuthors, AuthorAPI.getAllAuthors)
+  } = usePaginatedList(GenreAPI.getGenres, GenreAPI.getAllGenres)
 
   const handleAddNew = () => {
-    setEditAuthor(null)
+    setEditGenre(null)
     setFormData({ name: '' })
     setModalVisible(true)
   }
 
-  const handleEdit = (author) => {
-    setEditAuthor(author)
-    setFormData({ name: author.name })
+  const handleEdit = (Genre) => {
+    setEditGenre(Genre)
+    setFormData({ name: Genre.name })
     setModalVisible(true)
   }
 
   const handleDelete = (id) => {
-    setAuthorToDelete(id)
+    setGenreToDelete(id)
     setConfirmDeleteVisible(true)
   }
 
   const handleSave = () => {
     const payload = { ...formData }
-    if (editAuthor) payload.id = editAuthor.id
+    if (editGenre) payload.id = editGenre.id
 
-    const action = editAuthor ? AuthorAPI.updateAuthor : AuthorAPI.addAuthor
+    const action = editGenre ? GenreAPI.updateGenre : GenreAPI.addGenre
     action(payload)
       .then(() => {
         refetch()
         setModalVisible(false)
-        showToast(`Author ${editAuthor ? 'updated' : 'added'} successfully`, 'success')
+        showToast(`Genre ${editGenre ? 'updated' : 'added'} successfully`, 'success')
       })
       .catch(() => {
-        showToast(`Failed to ${editAuthor ? 'update' : 'add'} author`, 'error')
+        showToast(`Failed to ${editGenre ? 'update' : 'add'} Genre`, 'error')
       })
   }
 
   return (
     <>
       <ListHeader
-        title="Author List"
+        title="Genre List"
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         sortCriteria={sortCriteria}
@@ -96,7 +96,7 @@ const Author = () => {
         <CCardBody style={{ padding: 0 }}>
           <div className="scrollable-table-container">
             <EntityTable
-              items={authors}
+              items={Genres}
               onEdit={handleEdit}
               onDelete={handleDelete}
               onDetails={(id) => console.log('Details', id)}
@@ -111,10 +111,10 @@ const Author = () => {
           />
         </CCardBody>
       </CCard>
-      <AuthorFormModal
+      <GenreFormModal
         visible={modalVisible}
         setVisible={setModalVisible}
-        isEdit={!!editAuthor}
+        isEdit={!!editGenre}
         formData={formData}
         setFormData={setFormData}
         onSubmit={handleSave}
@@ -124,15 +124,15 @@ const Author = () => {
         visible={confirmDeleteVisible}
         setVisible={setConfirmDeleteVisible}
         title="Confirm Delete"
-        message="Are you sure you want to delete this author?"
+        message="Are you sure you want to delete this Genre?"
         onConfirm={() => {
-          AuthorAPI.deleteAuthor(authorToDelete)
+          GenreAPI.deleteGenre(GenreToDelete)
             .then(() => {
               refetch()
-              showToast('Author deleted successfully', 'success')
+              showToast('Genre deleted successfully', 'success')
             })
             .catch(() => {
-              showToast('Failed to delete author', 'error')
+              showToast('Failed to delete Genre', 'error')
             })
         }}
         confirmText="Delete"
@@ -143,4 +143,4 @@ const Author = () => {
   )
 }
 
-export default Author
+export default Genre

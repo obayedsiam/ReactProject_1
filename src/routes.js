@@ -1,8 +1,10 @@
 import React from 'react'
 
 
-const Books = React.lazy(() => import('./views/menu/Books'))
+// const Books = React.lazy(() => import('./views/menu/Books'))
+const Books = React.lazy(() => import('./views/pages/book/Book'))
 const Author = React.lazy(() => import('./views/pages/author/Author'))
+const Genre = React.lazy(() => import('./views/pages/genre/Genre'))
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -60,6 +62,7 @@ const routes = [
   { path: '/menu/users', name: 'Users', element: Colors, exact: true },
   { path: '/menu/books', name: 'Books', element: Books, exact: true },
   { path: '/menu/author', name: 'Author', element: Author, exact: true },
+  { path: '/menu/genre', name: 'Genre', element: Genre, exact: true },
 
   
   
