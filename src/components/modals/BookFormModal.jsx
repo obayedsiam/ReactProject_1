@@ -4,7 +4,7 @@ import {
   CModalBody, CModalFooter, CButton, CForm, CFormInput,
   CFormSelect
 } from '@coreui/react';
-import Select from 'react-select'; // ✅ react-select imported
+import Select from 'react-select';
 import AuthorAPI from '../../api/AuthorAPI';
 import GenreAPI from '../../api/GenreAPI';
 
@@ -12,6 +12,7 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
   const [writers, setWriters] = useState([]);
   const [genres, setGenres] = useState([]);
 
+  // Fetch data when modal becomes visible
   useEffect(() => {
     if (visible) {
       fetchWriters();
@@ -50,6 +51,21 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
     setFormData(prev => ({ ...prev, genreIds: selectedIds }));
   };
 
+  // Optional: Auto-select first writer if not selected in add mode
+  useEffect(() => {
+    if (
+      visible &&
+      !isEdit &&
+      (!formData.writerId || !writers.some(w => String(w.id) === formData.writerId)) &&
+      writers.length > 0
+    ) {
+      setFormData(prev => ({
+        ...prev,
+        writerId: String(writers[0].id)
+      }));
+    }
+  }, [visible, isEdit, writers]);
+
   return (
     <CModal visible={visible} onClose={() => setVisible(false)}>
       <CModalHeader>
@@ -67,18 +83,30 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
               required
             />
 
-            <CFormSelect
-              value={formData.writerId || ''}
-              onChange={(e) => handleChange('writerId', e.target.value)}
-              options={[
-                { label: 'Select Author', value: '' },
-                ...writers.map(writer => ({
-                  label: writer.name,
-                  value: writer.id
-                }))
-              ]}
-              required
-            />
+    {console.log(formData)}
+            {/* Conditionally render the CFormSelect only when writers data is available */}
+            {writers.length > 0 ? (
+                <CFormSelect
+                  value={
+                    formData.writerId !== undefined && formData.writerId !== null
+                      ? String(formData.writerId)
+                      : ''
+                  }
+                  onChange={(e) => handleChange('writerId', parseInt(e.target.value))}
+                  required
+                >
+                  <option value="">Select Author</option>
+                  {writers.map(writer => (
+                    <option key={writer.id} value={String(writer.id)}>
+                      {writer.name}
+                    </option>
+                  ))}
+                </CFormSelect>
+            ) : (
+                <CFormSelect value="" disabled>
+                    <option>Loading authors...</option>
+                </CFormSelect>
+            )}
 
             <div>
               <label htmlFor="genre-select" style={{ marginBottom: '0.5rem', display: 'block' }}>Genres</label>
@@ -91,8 +119,9 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
                 placeholder="Select genres..."
               />
             </div>
-          </div>
+          </div> 
         </CModalBody>
+
         <CModalFooter>
           <CButton color="secondary" onClick={() => setVisible(false)}>Cancel</CButton>
           <CButton type="submit" color="primary">Save</CButton>

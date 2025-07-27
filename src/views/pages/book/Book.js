@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { CCard, CCardBody, CButton } from '@coreui/react'
+import { CCard, CCardBody } from '@coreui/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -12,24 +12,20 @@ import EntityTable from '../../../components/tables/EntityTable'
 import PaginationControls from '../../../components/tables/PaginationControls'
 import useToast from '../../../hooks/useToast'
 
-import './Book.css' // 🔸 import the custom scroll CSS
+import './Book.css'
 
 const Book = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [editBook, setEditBook] = useState(null)
-  const [formData, setFormData] = useState({ name: '' })
+  const [formData, setFormData] = useState({ name: '', writerId: '', genreIds: [] })
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
-  const [BookToDelete, setBookToDelete] = useState(null)
+  const [bookToDelete, setBookToDelete] = useState(null)
 
   const showToast = useToast()
 
   useEffect(() => {
-    // Disable scroll on mount
     document.body.style.overflow = 'hidden'
-    return () => {
-      // Re-enable scroll on unmount
-      document.body.style.overflow = 'auto'
-    }
+    return () => { document.body.style.overflow = 'auto' }
   }, [])
 
   const {
@@ -45,13 +41,19 @@ const Book = () => {
 
   const handleAddNew = () => {
     setEditBook(null)
-    setFormData({ name: '' })
+    setFormData({ name: '', writerId: '', genreIds: [] })
     setModalVisible(true)
   }
 
   const handleEdit = (book) => {
+    {console.log("Book Data : ", book)}
     setEditBook(book)
-    setFormData({ name: book.name })
+    setFormData({
+      name: book.name || '',
+      // This is the corrected line. We explicitly convert the ID to a string.
+      writerId: String(book.writer?.id) || '',
+      genreIds: book.genres?.map(g => g.id) || []
+    })
     setModalVisible(true)
   }
 
@@ -61,8 +63,10 @@ const Book = () => {
   }
 
   const handleSave = () => {
-    const payload = { ...formData }
-    if (editBook) payload.id = editBook.id
+    const payload = {
+      ...formData,
+      id: editBook?.id
+    }
 
     const action = editBook ? BookAPI.updateBook : BookAPI.addBook
     action(payload)
@@ -111,6 +115,7 @@ const Book = () => {
           />
         </CCardBody>
       </CCard>
+
       <BookFormModal
         visible={modalVisible}
         setVisible={setModalVisible}
@@ -126,7 +131,7 @@ const Book = () => {
         title="Confirm Delete"
         message="Are you sure you want to delete this book?"
         onConfirm={() => {
-          BookAPI.deleteBook(BookToDelete)
+          BookAPI.deleteBook(bookToDelete)
             .then(() => {
               refetch()
               showToast('Book deleted successfully', 'success')
