@@ -20,6 +20,8 @@ const Book = () => {
   const [formData, setFormData] = useState({ name: '', writerId: '', genreIds: [] })
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
   const [bookToDelete, setBookToDelete] = useState(null)
+  const [viewmode, setViewmode] = useState('list')
+  
 
   const showToast = useToast()
 
@@ -45,14 +47,18 @@ const Book = () => {
     setModalVisible(true)
   }
 
-  const handleEdit = (book) => {
-    {console.log("Book Data : ", book)}
-    setEditBook(book)
+  const handleEdit = async (book) => {
+
+    const response = await BookAPI.getBookById(book.id);
+    // console.log("Find By Id response : ", response.data)
+    const fullBook = response.data;
+    
+    setEditBook(fullBook)
+    
     setFormData({
-      name: book.name || '',
-      // This is the corrected line. We explicitly convert the ID to a string.
-      writerId: String(book.writer?.id) || '',
-      genreIds: book.genres?.map(g => g.id) || []
+      name: fullBook.name || '',
+      writerId: fullBook.writer?.id?.toString() || '',
+      genreIds: fullBook.genres?.map(g => g.id) || []
     })
     setModalVisible(true)
   }
@@ -93,6 +99,8 @@ const Book = () => {
         pageSize={pageSize}
         setPageSize={setPageSize}
         onAddNew={handleAddNew}
+        viewMode={viewmode}
+        setViewMode={setViewmode}
         sortOptions={[{ label: 'Name', value: 'name' }]}
       />
 
@@ -103,6 +111,7 @@ const Book = () => {
               items={Books}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              viewMode={viewmode}
               onDetails={(id) => console.log('Details', id)}
             />
           </div>

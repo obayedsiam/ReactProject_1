@@ -12,7 +12,7 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
   const [writers, setWriters] = useState([]);
   const [genres, setGenres] = useState([]);
 
-  // Fetch data when modal becomes visible
+  // Fetch writers and genres when modal opens
   useEffect(() => {
     if (visible) {
       fetchWriters();
@@ -42,21 +42,23 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
     }
   };
 
-  const handleChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
+  // Re-set writerId from existing book data *after* writers are loaded
+  useEffect(() => {
+    if (isEdit && visible && writers.length > 0 && formData.writerId) {
+      const exists = writers.some(w => String(w.id) === String(formData.writerId));
+      if (!exists) {
+        // Writer from formData doesn't exist in fetched writers (edge case)
+        console.warn('Writer not found in fetched list');
+      }
+    }
+  }, [writers, formData.writerId, isEdit, visible]);
 
-  const handleGenreChange = (selectedOptions) => {
-    const selectedIds = selectedOptions.map(option => option.value);
-    setFormData(prev => ({ ...prev, genreIds: selectedIds }));
-  };
-
-  // Optional: Auto-select first writer if not selected in add mode
+  // Auto-select first writer if adding
   useEffect(() => {
     if (
       visible &&
       !isEdit &&
-      (!formData.writerId || !writers.some(w => String(w.id) === formData.writerId)) &&
+      (!formData.writerId || !writers.some(w => String(w.id) === String(formData.writerId))) &&
       writers.length > 0
     ) {
       setFormData(prev => ({
@@ -65,6 +67,15 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
       }));
     }
   }, [visible, isEdit, writers]);
+
+  const handleChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleGenreChange = (selectedOptions) => {
+    const selectedIds = selectedOptions.map(option => option.value);
+    setFormData(prev => ({ ...prev, genreIds: selectedIds }));
+  };
 
   return (
     <CModal visible={visible} onClose={() => setVisible(false)}>
@@ -83,29 +94,23 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
               required
             />
 
-    {console.log(formData)}
-            {/* Conditionally render the CFormSelect only when writers data is available */}
             {writers.length > 0 ? (
-                <CFormSelect
-                  value={
-                    formData.writerId !== undefined && formData.writerId !== null
-                      ? String(formData.writerId)
-                      : ''
-                  }
-                  onChange={(e) => handleChange('writerId', parseInt(e.target.value))}
-                  required
-                >
-                  <option value="">Select Author</option>
-                  {writers.map(writer => (
-                    <option key={writer.id} value={String(writer.id)}>
-                      {writer.name}
-                    </option>
-                  ))}
-                </CFormSelect>
+              <CFormSelect
+                value={formData.writerId ? String(formData.writerId) : ''}
+                onChange={(e) => handleChange('writerId', parseInt(e.target.value))}
+                required
+              >
+                <option value="">Select Author</option>
+                {writers.map(writer => (
+                  <option key={writer.id} value={String(writer.id)}>
+                    {writer.name}
+                  </option>
+                ))}
+              </CFormSelect>
             ) : (
-                <CFormSelect value="" disabled>
-                    <option>Loading authors...</option>
-                </CFormSelect>
+              <CFormSelect value="" disabled>
+                <option>Loading authors...</option>
+              </CFormSelect>
             )}
 
             <div>
@@ -119,7 +124,7 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
                 placeholder="Select genres..."
               />
             </div>
-          </div> 
+          </div>
         </CModalBody>
 
         <CModalFooter>

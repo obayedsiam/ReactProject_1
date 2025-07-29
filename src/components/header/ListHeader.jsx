@@ -1,5 +1,8 @@
-import React from 'react';
-import { CFormInput, CFormSelect, CButton } from '@coreui/react';
+import { CFormInput, CFormSelect, CButton, CDropdown, CDropdownToggle, CDropdownMenu, CDropdownItem } from '@coreui/react'
+import { List, Grid3x3, Grid2x2 } from 'lucide-react'
+
+const listViewPaginationOptions = [5, 10, 20, 50, 'all']
+const gridViewPaginationOptions = [10, 20, 40, 100, 'all']
 
 const ListHeader = ({
   title = 'List',
@@ -12,54 +15,50 @@ const ListHeader = ({
   pageSize,
   setPageSize,
   onAddNew,
-  sortOptions = [], // e.g. [{ label: 'Name', value: 'name' }, { label: 'Date', value: 'createdAt' }]
-  showSort = true,
+  sortOptions = [],
   showPageSize = true,
-  showAdd = true,
   addButtonText = '+ Add New',
+  viewMode,
+  setViewMode,
+  setCurrentPage, // Needed to reset page
 }) => {
+  const handleViewChange = (mode) => {
+    setViewMode(mode)
+    if (mode === 'grid') {
+      setPageSize((prev) => (prev === 'all' ? 'all' : prev * 2))
+    } else {
+      setPageSize((prev) => (prev === 'all' ? 'all' : Math.ceil(prev / 2)))
+    }
+    setCurrentPage(1)
+  }
+
   return (
-    <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 p-3 border-bottom">
+    <div className="d-flex justify-content-between align-items-center flex-wrap gap-1 p-3 border-bottom">
       <strong>{title}</strong>
 
-      <div className="d-flex align-items-center gap-2" style={{ flexWrap: 'nowrap', overflowX: 'auto' }}>
         {/* Search */}
         <CFormInput
           size="sm"
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ width: '150px' }}
+          style={{ width: '600px' }}
         />
 
-        {/* Sort Dropdown */}
-        {showSort && (
-          <CFormSelect
-            size="sm"
-            value={sortCriteria}
-            onChange={(e) => setSortCriteria(e.target.value)}
-            style={{ minWidth: '130px' }}
-          >
-            <option value="">Sort by</option>
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </CFormSelect>
-        )}
+      <div className="d-flex align-items-center gap-2" style={{ flexWrap: 'nowrap', overflowX: 'auto' }}>
 
-        {/* Sort Direction Button */}
-        {showSort && (
-          <CButton
-            color="secondary"
-            size="sm"
-            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            style={{ minWidth: '80px' }}
-          >
-            {sortOrder === 'asc' ? 'Asc' : 'Desc'}
-          </CButton>
-        )}
+        <CFormSelect
+          size="sm"
+          value={sortCriteria}
+          onChange={(e) => setSortCriteria(e.target.value)}
+          style={{ minWidth: '130px' }}
+        >
+          <option value="">Sort by</option>
+          {sortOptions.map((option) => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
+        </CFormSelect>
 
-        {/* Page Size Dropdown */}
         {showPageSize && (
           <CFormSelect
             size="sm"
@@ -71,28 +70,44 @@ const ListHeader = ({
             }}
             style={{ minWidth: '80px', whiteSpace: 'nowrap' }}
           >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="all">All</option>
+            {(viewMode === 'list' ? listViewPaginationOptions : gridViewPaginationOptions).map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
           </CFormSelect>
         )}
 
-        {/* Add New Button */}
-        {showAdd && (
           <CButton
-            color="primary"
-            size="sm"
-            onClick={onAddNew}
-            style={{ minWidth: '100px' }}
-          >
-            {addButtonText}
-          </CButton>
-        )}
+          color="secondary"
+          size="sm"
+          onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+          style={{ minWidth: '80px' }}
+        >
+          {sortOrder === 'asc' ? 'Asc' : 'Desc'}
+        </CButton>
+
+        {/* Add New Button */}
+        <CButton
+          color="primary"
+          size="sm"
+          onClick={onAddNew}
+          style={{ minWidth: '100px' }}
+        >
+          {addButtonText}
+        </CButton>
+                {/* View Mode Toggle */}
+        <CButton
+          color="light"
+          size="sm"
+          onClick={() => handleViewChange(viewMode === 'list' ? 'grid' : 'list')}
+        >
+          {viewMode === 'list' ? <List size={25} /> : <Grid2x2 size={25} />}
+        </CButton>
+
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ListHeader;
+export default ListHeader
