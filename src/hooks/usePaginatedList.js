@@ -8,25 +8,31 @@ const usePaginatedList = (fetchFn, fetchAllFunction = null, defaultSort = 'id', 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(defaultSize);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
 
   const refetch = () => {
+    const handleSuccess = (res) => {
+      const { data = [], totalPages = 1 } = res.data || {};
+      setData(data);
+      setTotalPages(totalPages);
+      setTotalElements(res.data.totalElements || 0)
+    };
+
+    const handleError = (message) => (err) => {
+      console.error(message, err);
+    };
+
     if (pageSize === 'all' && fetchAllFunction) {
       fetchAllFunction(searchTerm)
-        .then((res) => {
-          setData(res.data || []);
-          setTotalPages(1);
-        })
-        .catch((err) => console.error('Fetch all failed', err));
+        .then(handleSuccess)
+        .catch(handleError('Fetch all failed'));
     } else {
       fetchFn(currentPage - 1, pageSize, sortCriteria, sortOrder, searchTerm)
-        .then((res) => {
-          const r = res.data;
-          setData(r.data || []);
-          setTotalPages(r.totalPages || 1);
-        })
-        .catch((err) => console.error('Fetch error:', err));
+        .then(handleSuccess)
+        .catch(handleError('Fetch error:'));
     }
   };
+
 
   useEffect(() => {
     refetch();
@@ -39,6 +45,7 @@ const usePaginatedList = (fetchFn, fetchAllFunction = null, defaultSort = 'id', 
     sortOrder, setSortOrder,
     currentPage, setCurrentPage,
     pageSize, setPageSize,
+    totalElements,
     totalPages,
     refetch
   };

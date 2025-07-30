@@ -32,7 +32,7 @@ const EntityTable = ({ items, onEdit, onDelete, onDetails, viewMode = 'grid' }) 
                 <img
                   src={defaultBookImage}
                   alt={item.name}
-                  style={{ width: '80px', height: '80px', objectFit: 'cover', marginRight: '12px', borderRadius: '4px' }}
+                  style={{ width: '40px', height: '40px', objectFit: 'cover', marginRight: '12px', borderRadius: '4px' }}
                 />
                 <div>
                   <div style={{ fontSize: '1.1rem', fontWeight: '500' }}>{item.name}</div>
@@ -79,7 +79,7 @@ const EntityTable = ({ items, onEdit, onDelete, onDetails, viewMode = 'grid' }) 
                   <img
                     src={defaultBookImage}
                     alt={item.name}
-                    style={{ width: '80px', height: '80px', objectFit: 'cover', marginRight: '12px', borderRadius: '4px' }}
+                    style={{ width: '40px', height: '40px', objectFit: 'cover', marginRight: '12px', borderRadius: '4px' }}
                   />
                   <div>
                     <div style={{ fontSize: '1.1rem', fontWeight: '500' }}>{item.name}</div>

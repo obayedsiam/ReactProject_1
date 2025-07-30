@@ -7,7 +7,7 @@ const PaginationControls = ({ currentPage, totalPages, setCurrentPage, pageSize 
   if (pageSize === 'all' || totalPages <= 1) return null
 
   return (
-    <div className="d-flex justify-content-center mt-3 gap-2 flex-wrap p-3">
+    <div className="d-flex justify-content-center gap-2 flex-wrap p-1">
       {Array.from({ length: totalPages }, (_, i) => (
         <CButton
           key={i}

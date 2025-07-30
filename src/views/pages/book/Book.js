@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { CCard, CCardBody } from '@coreui/react'
+import { CCard, CCardBody, CCardText } from '@coreui/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -21,7 +21,7 @@ const Book = () => {
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
   const [bookToDelete, setBookToDelete] = useState(null)
   const [viewmode, setViewmode] = useState('list')
-  
+
 
   const showToast = useToast()
 
@@ -37,6 +37,7 @@ const Book = () => {
     sortOrder, setSortOrder,
     currentPage, setCurrentPage,
     pageSize, setPageSize,
+    totalElements,
     totalPages,
     refetch
   } = usePaginatedList(BookAPI.getBooks, BookAPI.getAllBooks)
@@ -52,9 +53,9 @@ const Book = () => {
     const response = await BookAPI.getBookById(book.id);
     // console.log("Find By Id response : ", response.data)
     const fullBook = response.data;
-    
+
     setEditBook(fullBook)
-    
+
     setFormData({
       name: fullBook.name || '',
       writerId: fullBook.writer?.id?.toString() || '',
@@ -104,6 +105,21 @@ const Book = () => {
         sortOptions={[{ label: 'Name', value: 'name' }]}
       />
 
+      <div className="position-relative px-2 mt-1" style={{ minHeight: '40px' }}>
+        <CCardText className="mb-0 position-absolute start-0 top-50 px-3 translate-middle-y">
+          Showing {Books.length} of {totalElements}
+        </CCardText>
+
+        <div className="d-flex justify-content-center">
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+            pageSize={pageSize}
+          />
+        </div>
+      </div>
+
       <CCard className="mt-3">
         <CCardBody style={{ padding: 0 }}>
           <div className="scrollable-table-container">
@@ -116,12 +132,7 @@ const Book = () => {
             />
           </div>
 
-          <PaginationControls
-            currentPage={currentPage}
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-            pageSize={pageSize}
-          />
+
         </CCardBody>
       </CCard>
 
