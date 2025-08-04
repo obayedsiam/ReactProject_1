@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   CModal, CModalHeader, CModalTitle,
   CModalBody, CModalFooter, CButton, CForm, CFormInput,
-  CFormSelect
+  CFormSelect, CFormCheck
 } from '@coreui/react';
 import Select from 'react-select';
 import AuthorAPI from '../../api/AuthorAPI';
@@ -12,7 +12,6 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
   const [writers, setWriters] = useState([]);
   const [genres, setGenres] = useState([]);
 
-  // Fetch writers and genres when modal opens
   useEffect(() => {
     if (visible) {
       fetchWriters();
@@ -42,18 +41,15 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
     }
   };
 
-  // Re-set writerId from existing book data *after* writers are loaded
   useEffect(() => {
     if (isEdit && visible && writers.length > 0 && formData.writerId) {
       const exists = writers.some(w => String(w.id) === String(formData.writerId));
       if (!exists) {
-        // Writer from formData doesn't exist in fetched writers (edge case)
         console.warn('Writer not found in fetched list');
       }
     }
   }, [writers, formData.writerId, isEdit, visible]);
 
-  // Auto-select first writer if adding
   useEffect(() => {
     if (
       visible &&
@@ -78,14 +74,16 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
   };
 
   return (
-    <CModal visible={visible} onClose={() => setVisible(false)}>
+    <CModal visible={visible} onClose={() => setVisible(false)} size="lg">
       <CModalHeader>
         <CModalTitle>{isEdit ? 'Edit Book' : 'Add New Book'}</CModalTitle>
       </CModalHeader>
 
       <CForm onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
         <CModalBody>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '0.5rem 0.25rem' }}>
+          <div className="d-flex flex-column gap-3">
+
+            {/* Basic Info */}
             <CFormInput
               placeholder="Book Name"
               name="name"
@@ -113,8 +111,9 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
               </CFormSelect>
             )}
 
+            {/* Genre */}
             <div>
-              <label htmlFor="genre-select" style={{ marginBottom: '0.5rem', display: 'block' }}>Genres</label>
+              <label htmlFor="genre-select" className="mb-1">Genres</label>
               <Select
                 id="genre-select"
                 isMulti
@@ -123,6 +122,106 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
                 onChange={handleGenreChange}
                 placeholder="Select genres..."
               />
+            </div>
+
+            {/* Additional Fields */}
+            <div className="row">
+              <div className="col-md-4">
+                <CFormInput
+                  label="Rating (0-5)"
+                  type="number"
+                  min={0}
+                  max={5}
+                  step={0.1}
+                  value={formData.rating || ''}
+                  onChange={(e) => handleChange('rating', parseFloat(e.target.value))}
+                />
+              </div>
+
+              <div className="col-md-4">
+                <CFormInput
+                  label="Reading %"
+                  type="number"
+                  min={0}
+                  max={100}
+                  value={formData.readingPercentage || ''}
+                  onChange={(e) => handleChange('readingPercentage', parseInt(e.target.value))}
+                />
+              </div>
+
+              <div className="col-md-4 d-flex align-items-end">
+                <CFormCheck
+                  label="IsRead?"
+                  checked={formData.read || false}
+                  onChange={(e) => handleChange('IsRead', e.target.checked)}
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-md-6">
+                <CFormInput
+                  label="Gifted By"
+                  value={formData.giftedBy || ''}
+                  onChange={(e) => handleChange('giftedBy', e.target.value)}
+                />
+              </div>
+              <div className="col-md-6">
+                <CFormInput
+                  label="Buying Date"
+                  type="date"
+                  value={formData.buyingDate || ''}
+                  onChange={(e) => handleChange('buyingDate', e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-md-6">
+                <CFormInput
+                  label="Buying Location"
+                  value={formData.buyingLocation || ''}
+                  onChange={(e) => handleChange('buyingLocation', e.target.value)}
+                />
+              </div>
+              <div className="col-md-6">
+                <CFormInput
+                  label="Current Book Location"
+                  value={formData.currentBookLocation || ''}
+                  onChange={(e) => handleChange('currentBookLocation', e.target.value)}
+                />
+              </div>
+            </div>
+
+            <hr />
+
+            <div className="row">
+              <div className="col-md-4 d-flex align-items-end">
+                <CFormCheck
+                  label="Borrowed?"
+                  checked={formData.borrowed || false}
+                  onChange={(e) => handleChange('borrowed', e.target.checked)}
+                />
+              </div>
+
+              {formData.borrowed && (
+                <>
+                  <div className="col-md-4">
+                    <CFormInput
+                      label="Borrower Name"
+                      value={formData.borrowerName || ''}
+                      onChange={(e) => handleChange('borrowerName', e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <CFormInput
+                      label="Borrower Phone"
+                      value={formData.borrowerPhone || ''}
+                      onChange={(e) => handleChange('borrowerPhone', e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </CModalBody>

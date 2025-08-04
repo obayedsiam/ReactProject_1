@@ -29,8 +29,10 @@ const ListHeader = ({
   const handleViewChange = (mode) => {
     setViewMode(mode)
     if (mode === 'grid') {
+      // setCurrentPage(1)
       setPageSize((prev) => (prev === 'all' ? 'all' : prev * 2))
     } else {
+      // setCurrentPage(1)
       setPageSize((prev) => (prev === 'all' ? 'all' : Math.ceil(prev / 2)))
     }
     setCurrentPage(1)
@@ -73,7 +75,7 @@ const ListHeader = ({
           size="sm"
           value={sortCriteria}
           onChange={(e) => setSortCriteria(e.target.value)}
-          style={{ minWidth: '90px', maxWidth: '90px'}}
+          style={{ minWidth: '90px', maxWidth: '90px' }}
         >
           <option value="">Sort by</option>
           {sortOptions.map((option) => (
@@ -88,7 +90,7 @@ const ListHeader = ({
           <CFormSelect
             size="sm"
             value={pageSize}
-        
+
             onChange={(e) => {
               const value = e.target.value
               setPageSize(value === 'all' ? 'all' : parseInt(value))

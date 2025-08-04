@@ -99,6 +99,7 @@ const Book = () => {
         setSortOrder={setSortOrder}
         pageSize={pageSize}
         setPageSize={setPageSize}
+        // setCurrentPage = {setCurrentPage}
         onAddNew={handleAddNew}
         viewMode={viewmode}
         setViewMode={setViewmode}
