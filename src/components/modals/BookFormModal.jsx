@@ -12,12 +12,22 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
   const [writers, setWriters] = useState([]);
   const [genres, setGenres] = useState([]);
 
+  const [showNewWriter, setShowNewWriter] = useState(false);
+  const [showNewGenre, setShowNewGenre] = useState(false);
+
+  const [newWriterName, setNewWriterName] = useState('');
+  const [newGenreName, setNewGenreName] = useState('');
+
+  const [selectedAuthor, setSelectedAuthor] = useState()
+
   useEffect(() => {
     if (visible) {
       fetchWriters();
       fetchGenres();
+      setSelectedAuthor();
     }
   }, [visible]);
+
 
   const fetchWriters = async () => {
     try {
@@ -41,29 +51,6 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
     }
   };
 
-  useEffect(() => {
-    if (isEdit && visible && writers.length > 0 && formData.writerId) {
-      const exists = writers.some(w => String(w.id) === String(formData.writerId));
-      if (!exists) {
-        console.warn('Writer not found in fetched list');
-      }
-    }
-  }, [writers, formData.writerId, isEdit, visible]);
-
-  useEffect(() => {
-    if (
-      visible &&
-      !isEdit &&
-      (!formData.writerId || !writers.some(w => String(w.id) === String(formData.writerId))) &&
-      writers.length > 0
-    ) {
-      setFormData(prev => ({
-        ...prev,
-        writerId: String(writers[0].id)
-      }));
-    }
-  }, [visible, isEdit, writers]);
-
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
@@ -71,6 +58,50 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
   const handleGenreChange = (selectedOptions) => {
     const selectedIds = selectedOptions.map(option => option.value);
     setFormData(prev => ({ ...prev, genreIds: selectedIds }));
+  };
+
+  const handleAddWriter = async () => {
+    if (!newWriterName.trim()) return;
+
+    try {
+      const response = await AuthorAPI.addAuthor({ name: newWriterName });
+      const newAuthor = response.data.data;
+
+      console.log('Return result ', newAuthor)
+
+      await fetchWriters(); // Make sure this updates the writers state
+      setFormData(prev => ({ ...prev, writerId: newAuthor.id }));
+      setSelectedAuthor(newAuthor.id);
+      console.log('Selected Author after : ', selectedAuthor);
+
+      setNewWriterName('');
+      setShowNewWriter(false);
+    } catch (error) {
+      console.error('Error adding new writer:', error);
+    }
+  };
+
+  const handleAddGenre = async () => {
+    if (!newGenreName.trim()) return;
+
+    try {
+      const response = await GenreAPI.addGenre({ name: newGenreName });
+      const newGenre = response.data.data;
+      // setGenres(prev => ({ ...prev, genreId: newGenre.id }));
+
+      console.log('Return result ', newGenre)
+
+      await fetchGenres(); // Make sure this updates the writers state
+      setFormData(prev => ({
+        ...prev,
+        genreIds: [...(prev.genreIds || []), newGenre.id] // assuming .value is the ID
+      }));
+
+      setNewGenreName('');
+      setShowNewGenre(false);
+    } catch (error) {
+      console.error('Error adding new writer:', error);
+    }
   };
 
   return (
@@ -82,8 +113,6 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
       <CForm onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
         <CModalBody>
           <div className="d-flex flex-column gap-3">
-
-            {/* Basic Info */}
             <CFormInput
               placeholder="Book Name"
               name="name"
@@ -92,9 +121,11 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
               required
             />
 
-            {writers.length > 0 ? (
+            {/* Author Dropdown + Add Writer */}
+            <div className="d-flex align-items-center gap-2">
               <CFormSelect
-                value={formData.writerId ? String(formData.writerId) : ''}
+                className="flex-grow-1"
+                value={selectedAuthor}
                 onChange={(e) => handleChange('writerId', parseInt(e.target.value))}
                 required
               >
@@ -105,16 +136,29 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
                   </option>
                 ))}
               </CFormSelect>
-            ) : (
-              <CFormSelect value="" disabled>
-                <option>Loading authors...</option>
-              </CFormSelect>
+              <CButton type="button" size="sm" color="info" onClick={() => setShowNewWriter(prev => !prev)}>
+                {showNewWriter ? 'Cancel' : '+'}
+              </CButton>
+            </div>
+
+            {showNewWriter && (
+              <div className="d-flex gap-2">
+                <CFormInput
+                  placeholder="New Writer Name"
+                  value={newWriterName}
+                  onChange={(e) => setNewWriterName(e.target.value)}
+                />
+                <CButton type="button" color="success" onClick={handleAddWriter}>
+                  Save
+                </CButton>
+              </div>
             )}
 
-            {/* Genre */}
-            <div>
-              <label htmlFor="genre-select" className="mb-1">Genres</label>
+            {/* Genres */}
+            <div className="d-flex align-items-center gap-2">
+              {/* <label htmlFor="genre-select" className="mb-1">Genres</label> */}
               <Select
+                className="flex-grow-1"
                 id="genre-select"
                 isMulti
                 options={genres}
@@ -122,9 +166,26 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
                 onChange={handleGenreChange}
                 placeholder="Select genres..."
               />
+              <CButton type="button" size="sm" color="info" onClick={() => setShowNewGenre(prev => !prev)}>
+                {showNewGenre ? 'Cancel' : '+'}
+              </CButton>
+
             </div>
 
-            {/* Additional Fields */}
+            {showNewGenre && (
+              <div className="d-flex gap-2">
+                <CFormInput
+                  placeholder="New Writer Name"
+                  value={newGenreName}
+                  onChange={(e) => setNewGenreName(e.target.value)}
+                />
+                <CButton type="button" color="success" onClick={handleAddGenre}>
+                  Save
+                </CButton>
+              </div>
+            )}
+
+            {/* Other Fields */}
             <div className="row">
               <div className="col-md-4">
                 <CFormInput
@@ -137,7 +198,6 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
                   onChange={(e) => handleChange('rating', parseFloat(e.target.value))}
                 />
               </div>
-
               <div className="col-md-4">
                 <CFormInput
                   label="Reading %"
@@ -148,7 +208,6 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
                   onChange={(e) => handleChange('readingPercentage', parseInt(e.target.value))}
                 />
               </div>
-
               <div className="col-md-4 d-flex align-items-end">
                 <CFormCheck
                   label="IsRead?"
@@ -203,7 +262,6 @@ const BookFormModal = ({ visible, setVisible, isEdit, formData, setFormData, onS
                   onChange={(e) => handleChange('borrowed', e.target.checked)}
                 />
               </div>
-
               {formData.borrowed && (
                 <>
                   <div className="col-md-4">
